@@ -19,7 +19,7 @@ jobs:
     steps:
     - name: checkout repository
       id: repo
-      uses: actions/checkout@v5.0.0
+      uses: actions/checkout@v5.0.1
 
     - name: get python 3.13
       uses: actions/setup-python@v6.0.0
@@ -47,7 +47,7 @@ jobs:
     steps:
 
       - name: checkout
-        uses: actions/checkout@v5.0.0
+        uses: actions/checkout@v5.0.1
 
       - name: Change version in repo
         run: sed -i "s/__version__ =.*/__version__ = \"${{ github.event.inputs.version }}\"/g" aiida_gromacs/__init__.py
@@ -78,7 +78,7 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5.0.0
+        uses: actions/checkout@v5.0.1
         with:
           ref: master
 
@@ -109,7 +109,7 @@ jobs:
     steps:
 
     - name: checkout
-      uses: actions/checkout@v5.0.0
+      uses: actions/checkout@v5.0.1
       with:
         ref: master
 
