@@ -47,7 +47,7 @@ Contributors to aiida-gromacs were supported by
 
 .. image:: images/ccpbiosim-logo-white-background.png
    :height: 100px
-   :target: https://www.ccpbiosim.ac.uk/
+   :target: https://www.ccpbiosim.org/
 
 .. image:: images/cosec-logo.png
    :height: 100px
