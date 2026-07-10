@@ -14,8 +14,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python: [3.11]
-        aiida: [2.8.0]
+        python: [3.13]
+        aiida: [2.6.3]
         container: [2026-01-26-gromacs2025.4-plumed2.9.2]
     continue-on-error: false
     runs-on: ubuntu-24.04
