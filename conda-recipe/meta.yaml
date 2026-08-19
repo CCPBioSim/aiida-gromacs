@@ -27,7 +27,7 @@ outputs:
       host:
         - python
         - pip
-        - flit-core >=3.4,<4
+        - flit-core >=4,<5
       run:
         - python
         - aiida-core >=2.6.1,<=2.6.3
