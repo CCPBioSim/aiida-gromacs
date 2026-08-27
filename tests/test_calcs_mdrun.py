@@ -102,7 +102,7 @@ def run_mdrun_plumed(gromacs_code):
             # "plumed": "plumed_mdrun_prod.dat",
             "v": "true",
             "ntomp": "5",
-            # "ntmpi": "1", # turn off omp and mpi for gmx patched with plumed
+            "ntmpi": "1",  # set mpi threads to 1 when patched with plumed on conda
         }
     )
 
