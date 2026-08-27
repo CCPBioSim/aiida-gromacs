@@ -1,7 +1,7 @@
 """pytest fixtures for simplified testing."""
 import pytest
 
-pytest_plugins = ["aiida.manage.tests.pytest_fixtures"]
+pytest_plugins = "aiida.tools.pytest_fixtures"
 
 
 @pytest.fixture(scope="function", autouse=True)
@@ -10,12 +10,22 @@ def clear_database_auto(aiida_profile_clean):  # pylint: disable=unused-argument
 
 
 @pytest.fixture(scope="function")
-def gromacs_code(aiida_local_code_factory):
+def gromacs_code(aiida_code, aiida_localhost):
     """Get a gromacs code."""
-    return aiida_local_code_factory(executable="gmx", entry_point="gromacs")
+    return aiida_code(
+        "core.code.installed",
+        label="gromacs",
+        computer=aiida_localhost,
+        filepath_executable="gmx",
+    )
 
 
 @pytest.fixture(scope="function")
-def bash_code(aiida_local_code_factory):
+def bash_code(aiida_code, aiida_localhost):
     """Get a bash code."""
-    return aiida_local_code_factory(executable="bash", entry_point="gromacs")
+    return aiida_code(
+        "core.code.installed",
+        label="bash",
+        computer=aiida_localhost,
+        filepath_executable="bash",
+    )
