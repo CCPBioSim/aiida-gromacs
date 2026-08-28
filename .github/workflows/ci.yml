@@ -47,6 +47,7 @@ jobs:
       run: |
         eval "$(micromamba shell hook --shell bash)"
         micromamba activate testing
+        export PLUMED_KERNEL=/opt/conda/lib/libplumedKernel.so
         pytest -s --cov aiida_gromacs --cov-report term-missing --cov-append .
 
     - name: Report Coverage
