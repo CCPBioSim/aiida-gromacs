@@ -246,6 +246,12 @@ nitpick_ignore = [
     ("py:class", "aiida.orm.nodes.process.process.ProcessNode"),
     ("py:class", "aiida.orm.nodes.data.singlefile.SinglefileData"),
     ("py:class", "aiida.engine.processes.workchains.workchain.WorkChain"),
+    ('py:class', 'aiida.orm.nodes.data.dict.Dict.AttributesModel'),
+    ('py:class', 'aiida.orm.nodes.data.dict.Dict.ReadModel'),
+    ('py:class', 'aiida.orm.nodes.data.dict.Dict.WriteModel'),
+    ('py:class', 'aiida.orm.nodes.data.singlefile.SinglefileData.AttributesModel'),
+    ('py:class', 'aiida.orm.nodes.data.singlefile.SinglefileData.ReadModel'),
+    ('py:class', 'aiida.orm.nodes.data.singlefile.SinglefileData.WriteModel'),
 ]
 
 # -- Options for LaTeX output ---------------------------------------------
