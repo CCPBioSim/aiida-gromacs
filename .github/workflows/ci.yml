@@ -14,15 +14,16 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python: [3.11]
-        aiida: [2.6.1, 2.6.2, 2.6.3]
-        container: [2026-01-26-gromacs2025.4-plumed2.9.2]
+        python: [3.13]
+        aiida: [2.9.0, 2.9.1]
+        gromacs: [2026.3]
+        plumed: [2.10.1]
     continue-on-error: false
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     container:
-        image: ghcr.io/ccpbiosim/aiida-gromacs-testenv:${{ matrix.container }}
-    name: py${{ matrix.python }}-aiida${{ matrix.aiida }}-${{ matrix.container }}
+        image: ghcr.io/mamba-org/micromamba:2.9.0-ubuntu24.04
+    name: py${{ matrix.python }}-aiida${{ matrix.aiida }}
     steps:
     - name: checkout
       uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
@@ -30,15 +31,8 @@ jobs:
     - name: Add mamba packages
       shell: bash
       run: |
-          mamba install -c conda-forge mamba python=${{ matrix.python }} aiida-core=${{ matrix.aiida }} aiida-core.services=${{ matrix.aiida }}
-
-    - name: Start AiiDA with a test profile
-      shell: bash
-      run: |
-          rabbitmq-server -detached
-          sleep 5
-          verdi presto
-          verdi status
+          micromamba install -c conda-forge python=${{ matrix.python }} aiida-core=${{ matrix.aiida }} gromacs=${{ matrix.gromacs }}=nompi_* plumed=${{ matrix.plumed }}=mpi_nompi_*
+          export PLUMED_KERNEL=/home/rjw41005/miniforge3/envs/aiida-gromacs-dev/lib/libplumedKernel.so
 
     - name: Install aiida-gromacs and its testing dependencies
       shell: bash
