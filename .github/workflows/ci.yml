@@ -11,6 +11,7 @@ on:
 jobs:
 
   tests:
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
@@ -19,22 +20,35 @@ jobs:
         gromacs: [2026.3]
         plumed: [2.10.1]
     continue-on-error: false
-    runs-on: ubuntu-24.04
     timeout-minutes: 30
-    container:
-      image: ghcr.io/mamba-org/micromamba:2.9.0-ubuntu24.04
-      options: --user=root # required for checkout to mount
     name: py${{ matrix.python }}-aiida${{ matrix.aiida }}
+    defaults:
+      run:
+        shell: bash -el {0}
     steps:
     - name: checkout
       uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
 
-    - name: Install and test
-      shell: _entrypoint.sh /bin/bash --noprofile --norc -eo pipefail {0}
+    - name: Setup Miniconda
+      uses: conda-incubator/setup-miniconda@v3
+      with:
+        activate-environment: "testing"
+        python-version: ${{ matrix.python }}
+        channels: "conda-forge"
+        auto-activate-base: false
+
+    - name: Install dependencies
       run: |
-        micromamba install -c conda-forge python=${{ matrix.python }} aiida-core=${{ matrix.aiida }} gromacs=${{ matrix.gromacs }}=nompi_* plumed=${{ matrix.plumed }}=mpi_nompi_* curl
-        export PLUMED_KERNEL=/opt/conda/lib/libplumedKernel.so
+        micromamba install -c conda-forge python=${{ matrix.python }} aiida-core=${{ matrix.aiida }} gromacs=${{ matrix.gromacs }}=nompi_* plumed=${{ matrix.plumed }}=mpi_nompi_*
+        which gmx
+
+    - name: Install aiida-gromacs to test
+      run: |
         pip install -e .[testing]
+
+    - name: Run tests
+      run: |
+        export PLUMED_KERNEL=/opt/conda/envs/testing/lib/libplumedKernel.so
         pytest -s --cov aiida_gromacs --cov-report term-missing --cov-append .
 
     - name: Report Coverage
