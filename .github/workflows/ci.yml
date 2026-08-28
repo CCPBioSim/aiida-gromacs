@@ -49,12 +49,12 @@ jobs:
     - name: Run tests
       run: |
         export PLUMED_KERNEL=/usr/share/miniconda/envs/testing/lib/libplumedKernel.so
-        pytest -s --cov aiida_gromacs --cov-report term-missing --cov-report xml:coverage.xml --cov-append .
+        pytest -s --cov aiida_gromacs --cov-report term-missing --cov-report "xml:${GITHUB_WORKSPACE}/coverage.xml" --cov-append .
 
     - name: Report Coverage
       uses: coverallsapp/github-action@5cbfd81b66ca5d10c19b062c04de0199c215fb6e # v2.3.7
       with:
-          file: coverage.xml
+          file: ${{ github.workspace }}/coverage.xml
           format: cobertura
           flag-name: run-${{ join(matrix.*, '-') }}
           parallel: true
