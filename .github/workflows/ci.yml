@@ -36,7 +36,7 @@ jobs:
           echo "PLUMED_KERNEL=/opt/conda/lib/libplumedKernel.so" >> "$GITHUB_ENV"
           export PLUMED_KERNEL=/opt/conda/lib/libplumedKernel.so
           pip install -e .[testing]
-          pytest --cov aiida_gromacs --cov-report term-missing --cov-append .
+          pytest -s --cov aiida_gromacs --cov-report term-missing --cov-append .
 
     #- name: Install aiida-gromacs and its testing dependencies
     #  shell: bash --noprofile --norc -eo pipefail {0}
@@ -44,7 +44,7 @@ jobs:
 
     #- name: Run test suite
     #  shell: bash --noprofile --norc -eo pipefail {0}
-    #  run: pytest --cov aiida_gromacs --cov-report term-missing --cov-append .
+    #  run: pytest -s --cov aiida_gromacs --cov-report term-missing --cov-append .
 
     #- name: Report Coverage
     #  uses: coverallsapp/github-action@5cbfd81b66ca5d10c19b062c04de0199c215fb6e # v2.3.7
