@@ -37,7 +37,13 @@ jobs:
           micromamba install -c conda-forge python=${{ matrix.python }} aiida-core=${{ matrix.aiida }} gromacs=${{ matrix.gromacs }}=nompi_* plumed=${{ matrix.plumed }}=mpi_nompi_*
           echo "PLUMED_KERNEL=/opt/conda/lib/libplumedKernel.so" >> "$GITHUB_ENV"
           find /opt/conda -name "GMXRC.bash" -exec \
-            sed -i 's/shopt -s extglob$/shopt -s extglob nullglob/' {} \;
+            sed -i '1i shopt -s nullglob' {} \;
+
+          echo "--- verifying patch ---"
+          for f in $(find /opt/conda -name "GMXRC.bash"); do
+            echo "== $f =="
+            head -n 1 "$f"
+          done
 
     - name: Install aiida-gromacs and its testing dependencies
       run: pip install -e .[testing]
