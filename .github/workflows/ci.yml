@@ -32,7 +32,7 @@ jobs:
     - name: Install and test
       shell: _entrypoint.sh /bin/bash --noprofile --norc -eo pipefail {0}
       run: |
-        micromamba install -c conda-forge python=${{ matrix.python }} aiida-core=${{ matrix.aiida }} gromacs=${{ matrix.gromacs }}=nompi_* plumed=${{ matrix.plumed }}=mpi_nompi_*
+        micromamba install -c conda-forge python=${{ matrix.python }} aiida-core=${{ matrix.aiida }} gromacs=${{ matrix.gromacs }}=nompi_* plumed=${{ matrix.plumed }}=mpi_nompi_* curl
         export PLUMED_KERNEL=/opt/conda/lib/libplumedKernel.so
         pip install -e .[testing]
         pytest -s --cov aiida_gromacs --cov-report term-missing --cov-append .
