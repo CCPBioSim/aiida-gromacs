@@ -39,7 +39,7 @@ jobs:
 
     - name: Install dependencies
       run: |
-        micromamba install -c conda-forge python=${{ matrix.python }} aiida-core=${{ matrix.aiida }} gromacs=${{ matrix.gromacs }}=nompi_* plumed=${{ matrix.plumed }}=mpi_nompi_*
+        conda install -c conda-forge python=${{ matrix.python }} aiida-core=${{ matrix.aiida }} gromacs=${{ matrix.gromacs }}=nompi_* plumed=${{ matrix.plumed }}=mpi_nompi_*
         which gmx
 
     - name: Install aiida-gromacs to test
