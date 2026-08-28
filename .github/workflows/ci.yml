@@ -25,30 +25,22 @@ jobs:
         image: ghcr.io/mamba-org/micromamba:2.9.0-ubuntu24.04
         options: --user=root # required for checkout to mount
     name: py${{ matrix.python }}-aiida${{ matrix.aiida }}
-    defaults:
-      run:
-        shell: _entrypoint.sh /bin/bash --noprofile --norc -eo pipefail {0}
     steps:
     - name: checkout
       uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
 
     - name: Add mamba packages
+      shell: _entrypoint.sh /bin/bash --noprofile --norc -eo pipefail {0}
       run: |
           micromamba install -c conda-forge python=${{ matrix.python }} aiida-core=${{ matrix.aiida }} gromacs=${{ matrix.gromacs }}=nompi_* plumed=${{ matrix.plumed }}=mpi_nompi_*
           echo "PLUMED_KERNEL=/opt/conda/lib/libplumedKernel.so" >> "$GITHUB_ENV"
-          find /opt/conda -name "GMXRC.bash" -exec \
-            sed -i '1i shopt -s nullglob' {} \;
-
-          echo "--- verifying patch ---"
-          for f in $(find /opt/conda -name "GMXRC.bash"); do
-            echo "== $f =="
-            head -n 1 "$f"
-          done
 
     - name: Install aiida-gromacs and its testing dependencies
+      shell: bash --noprofile --norc -eo pipefail {0}
       run: pip install -e .[testing]
 
     - name: Run test suite
+      shell: bash --noprofile --norc -eo pipefail {0}
       run: pytest --cov aiida_gromacs --cov-report term-missing --cov-append .
 
     - name: Report Coverage
