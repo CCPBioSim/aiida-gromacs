@@ -36,11 +36,8 @@ jobs:
       run: |
           micromamba install -c conda-forge python=${{ matrix.python }} aiida-core=${{ matrix.aiida }} gromacs=${{ matrix.gromacs }}=nompi_* plumed=${{ matrix.plumed }}=mpi_nompi_*
           echo "PLUMED_KERNEL=/opt/conda/lib/libplumedKernel.so" >> "$GITHUB_ENV"
-
-    - name: Patch GMXRC completion glob bug
-      run: |
-        find /opt/conda -name "GMXRC.bash" -exec \
-        sed -i 's/shopt -s extglob$/shopt -s extglob nullglob/' {} \;
+          find /opt/conda -name "GMXRC.bash" -exec \
+            sed -i 's/shopt -s extglob$/shopt -s extglob nullglob/' {} \;
 
     - name: Install aiida-gromacs and its testing dependencies
       run: pip install -e .[testing]
