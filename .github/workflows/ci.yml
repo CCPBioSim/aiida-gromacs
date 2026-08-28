@@ -36,7 +36,7 @@ jobs:
       run: |
         micromamba create -n testing -c conda-forge python=${{ matrix.python }} aiida-core=${{ matrix.aiida }} gromacs=${{ matrix.gromacs }}=nompi_* plumed=${{ matrix.plumed }}=mpi_nompi_*
         echo "PLUMED_KERNEL=/opt/conda/lib/libplumedKernel.so" >> "$GITHUB_ENV"
-        echo "MAMBA_DEFAULT_ENV=my_env" >> $GITHUB_ENV
+        eval "$(micromamba shell hook --shell bash)"
 
     - name: Add aiida-gromacs from repo for testing
       run: |      
