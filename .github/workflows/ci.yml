@@ -32,16 +32,18 @@ jobs:
     - name: checkout
       uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
 
-    - name: Add mamba and pip packages
+    - name: Add mamba packages
       run: |
         micromamba create -n testing -c conda-forge python=${{ matrix.python }} aiida-core=${{ matrix.aiida }} gromacs=${{ matrix.gromacs }}=nompi_* plumed=${{ matrix.plumed }}=mpi_nompi_*
-        micromamba activate testing
         echo "PLUMED_KERNEL=/opt/conda/lib/libplumedKernel.so" >> "$GITHUB_ENV"
+        echo "MAMBA_DEFAULT_ENV=my_env" >> $GITHUB_ENV
+
+    - name: Add aiida-gromacs from repo for testing
+      run: |        
         pip install -e .[testing]
 
     - name: Run test suite
       run: |
-        micromamba activate testing
         pytest -s --cov aiida_gromacs --cov-report term-missing --cov-append .
 
     - name: Report Coverage
