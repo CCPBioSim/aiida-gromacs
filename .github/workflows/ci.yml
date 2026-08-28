@@ -39,11 +39,13 @@ jobs:
         echo "MAMBA_DEFAULT_ENV=my_env" >> $GITHUB_ENV
 
     - name: Add aiida-gromacs from repo for testing
-      run: |        
+      run: |      
+        micromamba activate testing
         pip install -e .[testing]
 
     - name: Run test suite
       run: |
+        micromamba activate testing
         pytest -s --cov aiida_gromacs --cov-report term-missing --cov-append .
 
     - name: Report Coverage
