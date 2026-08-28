@@ -27,8 +27,7 @@ Our AiiDA plugin has been tested with AiiDA ``v2.4.0`` to ``v2.6.1``, we recomme
 
 .. code-block:: bash
 
-    conda install -c conda-forge mamba
-    mamba create --name aiida-2.4.0 -c conda-forge aiida-core=2.4.0 aiida-core.services=2.4.0 python=3.11.0
+    conda create --name aiida-2.4.0 -c conda-forge aiida-core=2.4.0 aiida-core.services=2.4.0 python=3.11.0
 
 Plugin Installation
 -------------------
@@ -37,7 +36,7 @@ To install the AiiDA-gromacs plugin, activate the conda environment created prev
 
 .. code-block:: bash
 
-    conda activate aiida-2.4.0
+    conda activate aiida-2.9.1
     pip install aiida-gromacs
 
 Alternative Installation via Conda
@@ -49,14 +48,8 @@ To install using Conda:
 
 .. code-block:: bash
 
-    conda activate aiida-2.4.0
+    conda activate aiida-2.9.1
     conda install -c CCPBioSim aiida-gromacs
-
-Or using mamba:
-
-.. code-block:: bash
-
-    mamba install -c CCPBioSim aiida-gromacs
 
 GROMACS Installation
 --------------------
