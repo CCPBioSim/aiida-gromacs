@@ -36,15 +36,16 @@ jobs:
       run: |
         micromamba create -n testing -c conda-forge python=${{ matrix.python }} aiida-core=${{ matrix.aiida }} gromacs=${{ matrix.gromacs }}=nompi_* plumed=${{ matrix.plumed }}=mpi_nompi_*
         echo "PLUMED_KERNEL=/opt/conda/lib/libplumedKernel.so" >> "$GITHUB_ENV"
-        eval "$(micromamba shell hook --shell bash)"
 
     - name: Add aiida-gromacs from repo for testing
-      run: |      
+      run: |
+        eval "$(micromamba shell hook --shell bash)"
         micromamba activate testing
         pip install -e .[testing]
 
     - name: Run test suite
       run: |
+        eval "$(micromamba shell hook --shell bash)"
         micromamba activate testing
         pytest -s --cov aiida_gromacs --cov-report term-missing --cov-append .
 
