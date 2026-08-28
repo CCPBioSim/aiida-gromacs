@@ -35,6 +35,7 @@ jobs:
     - name: Add mamba and pip packages
       run: |
         micromamba create -n testing -c conda-forge python=${{ matrix.python }} aiida-core=${{ matrix.aiida }} gromacs=${{ matrix.gromacs }}=nompi_* plumed=${{ matrix.plumed }}=mpi_nompi_*
+        micromamba activate testing
         echo "PLUMED_KERNEL=/opt/conda/lib/libplumedKernel.so" >> "$GITHUB_ENV"
         pip install -e .[testing]
 
