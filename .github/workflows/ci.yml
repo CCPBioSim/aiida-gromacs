@@ -34,20 +34,22 @@ jobs:
       run: |
           micromamba install -c conda-forge python=${{ matrix.python }} aiida-core=${{ matrix.aiida }} gromacs=${{ matrix.gromacs }}=nompi_* plumed=${{ matrix.plumed }}=mpi_nompi_*
           echo "PLUMED_KERNEL=/opt/conda/lib/libplumedKernel.so" >> "$GITHUB_ENV"
+          pip install -e .[testing]
+          pytest --cov aiida_gromacs --cov-report term-missing --cov-append .
 
-    - name: Install aiida-gromacs and its testing dependencies
-      shell: bash --noprofile --norc -eo pipefail {0}
-      run: pip install -e .[testing]
+    #- name: Install aiida-gromacs and its testing dependencies
+    #  shell: bash --noprofile --norc -eo pipefail {0}
+    #  run: pip install -e .[testing]
 
-    - name: Run test suite
-      shell: bash --noprofile --norc -eo pipefail {0}
-      run: pytest --cov aiida_gromacs --cov-report term-missing --cov-append .
+    #- name: Run test suite
+    #  shell: bash --noprofile --norc -eo pipefail {0}
+    #  run: pytest --cov aiida_gromacs --cov-report term-missing --cov-append .
 
-    - name: Report Coverage
-      uses: coverallsapp/github-action@5cbfd81b66ca5d10c19b062c04de0199c215fb6e # v2.3.7
-      with:
-          flag-name: run-${{ join(matrix.*, '-') }}
-          parallel: true
+    #- name: Report Coverage
+    #  uses: coverallsapp/github-action@5cbfd81b66ca5d10c19b062c04de0199c215fb6e # v2.3.7
+    #  with:
+    #      flag-name: run-${{ join(matrix.*, '-') }}
+    #      parallel: true
 
   finish:
     needs: tests
