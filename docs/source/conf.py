@@ -254,6 +254,10 @@ nitpick_ignore = [
     ('py:class', 'aiida.orm.nodes.data.singlefile.SinglefileData.WriteModel'),
 ]
 
+nitpick_ignore_regex = [
+    (r'py:class', r'.*\.(AttributesModel|ReadModel|WriteModel|ConstructorModel|Model)'),
+]
+
 # -- Options for LaTeX output ---------------------------------------------
 
 latex_elements = {
