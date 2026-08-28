@@ -48,7 +48,7 @@ jobs:
 
     - name: Run tests
       run: |
-        export PLUMED_KERNEL=/opt/conda/envs/testing/lib/libplumedKernel.so
+        export PLUMED_KERNEL=/usr/share/miniconda/envs/testing/lib/libplumedKernel.so
         pytest -s --cov aiida_gromacs --cov-report term-missing --cov-append .
 
     - name: Report Coverage
