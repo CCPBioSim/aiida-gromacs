@@ -256,8 +256,8 @@ nitpick_ignore = [
 
 nitpick_ignore_regex = [
     (
-        r'py:class',
-        r'.*\.(AttributesModel|AttributesWriteModel|ReadModel|WriteModel|ConstructorModel|Model)'
+        r"py:class",
+        r".*\.(AttributesModel|AttributesWriteModel|ReadModel|WriteModel|ConstructorModel|Model)",
     ),
 ]
 
