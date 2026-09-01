@@ -75,8 +75,8 @@ def test_launch_mdrun_plumed():
             plumed_file,
             "-ntomp",
             "5",
-            # "-ntmpi", # turn off mpi for gmx patched with plumed
-            # "1",
+            "-ntmpi",  # set mpi threads to 1 when patched with plumed on conda
+            "1",
         ]
     )
     # append run process to qb

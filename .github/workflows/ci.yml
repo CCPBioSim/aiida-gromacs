@@ -11,46 +11,51 @@ on:
 jobs:
 
   tests:
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
-        python: [3.11]
-        aiida: [2.6.1, 2.6.2, 2.6.3]
-        container: [2026-01-26-gromacs2025.4-plumed2.9.2]
+        python: [3.13]
+        aiida: [2.9.0, 2.9.1]
+        gromacs: [2026.3]
+        plumed: [2.10.1]
     continue-on-error: false
-    runs-on: ubuntu-24.04
     timeout-minutes: 30
-    container:
-        image: ghcr.io/ccpbiosim/aiida-gromacs-testenv:${{ matrix.container }}
-    name: py${{ matrix.python }}-aiida${{ matrix.aiida }}-${{ matrix.container }}
+    name: py${{ matrix.python }}-aiida${{ matrix.aiida }}
+    defaults:
+      run:
+        shell: bash -el {0}
     steps:
     - name: checkout
       uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
 
-    - name: Add mamba packages
-      shell: bash
+    - name: Setup Miniconda
+      uses: conda-incubator/setup-miniconda@v4.0.1
+      with:
+        activate-environment: "testing"
+        python-version: ${{ matrix.python }}
+        channels: "conda-forge"
+        auto-activate-base: false
+
+    - name: Install dependencies
       run: |
-          mamba install -c conda-forge mamba python=${{ matrix.python }} aiida-core=${{ matrix.aiida }} aiida-core.services=${{ matrix.aiida }}
+        conda install -c conda-forge python=${{ matrix.python }} aiida-core=${{ matrix.aiida }} gromacs=${{ matrix.gromacs }}=nompi_* plumed=${{ matrix.plumed }}=mpi_nompi_*
+        which gmx
 
-    - name: Start AiiDA with a test profile
-      shell: bash
+    - name: Install aiida-gromacs to test
       run: |
-          rabbitmq-server -detached
-          sleep 5
-          verdi presto
-          verdi status
+        pip install -e .[testing]
 
-    - name: Install aiida-gromacs and its testing dependencies
-      shell: bash
-      run: pip install -e .[testing]
-
-    - name: Run test suite
-      shell: bash
-      run: pytest --cov aiida_gromacs --cov-report term-missing --cov-append .
+    - name: Run tests
+      run: |
+        export PLUMED_KERNEL=/usr/share/miniconda/envs/testing/lib/libplumedKernel.so
+        pytest -s --cov aiida_gromacs --cov-report term-missing --cov-report "xml:${GITHUB_WORKSPACE}/coverage.xml" --cov-append .
 
     - name: Report Coverage
       uses: coverallsapp/github-action@5cbfd81b66ca5d10c19b062c04de0199c215fb6e # v2.3.7
       with:
+          file: ${{ github.workspace }}/coverage.xml
+          format: cobertura
           flag-name: run-${{ join(matrix.*, '-') }}
           parallel: true
 

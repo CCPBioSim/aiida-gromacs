@@ -24,9 +24,9 @@ classifiers = [
     "Framework :: AiiDA"
 ]
 keywords = ["aiida", "plugin", "gromacs", "aiida-gromacs"]
-requires-python = ">=3.8"
+requires-python = ">=3.11"
 dependencies = [
-    "aiida-core>=2.8.0,<=2.8.1",
+    "aiida-core>=2.9.0,<2.10",
     "voluptuous==0.16.0"
 ]
 

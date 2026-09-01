@@ -56,7 +56,7 @@ def get_computer(name=LOCALHOST_NAME, workdir=None):
 
         computer = Computer(
             label=name,
-            description="localhost computer set up by gromacs plugin",
+            description="localhost computer set up by aiida-gromacs plugin",
             hostname=name,
             workdir=workdir,
             transport_type="core.local",
