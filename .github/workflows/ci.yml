@@ -15,7 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python: [3.12, 3.13]
+        python: [3.11, 3.12, 3.13]
         aiida: [2.9.0, 2.9.1]
         gromacs: [2026.3]
         plumed: [2.10.1]
