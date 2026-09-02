@@ -36,7 +36,7 @@ Source = "https://github.com/CCPBioSim/aiida-gromacs"
 [project.optional-dependencies]
 testing = [
     "pgtest==1.3.2",
-    "wheel==0.47.0",
+    "wheel==0.48.0",
     "coverage[toml]",
     "pytest==9.1.1",
     "pytest-cov==7.1.0",
