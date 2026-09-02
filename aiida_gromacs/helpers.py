@@ -88,7 +88,7 @@ def get_code(entry_point, computer):
 
     codes = InstalledCode.collection.find(
         filters={"label": executable}
-    )  # pylint: disable=no-member
+    )
     if codes:
         return codes[0]
 

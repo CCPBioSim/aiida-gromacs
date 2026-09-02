@@ -47,7 +47,7 @@ cmdline_options = {
 }
 
 
-class Pdb2gmxParameters(Dict):  # pylint: disable=too-many-ancestors
+class Pdb2gmxParameters(Dict):
     """
     Command line options for diff.
 
@@ -57,8 +57,7 @@ class Pdb2gmxParameters(Dict):  # pylint: disable=too-many-ancestors
 
     # "voluptuous" schema  to add automatic validation
     schema = Schema(cmdline_options)
-
-    # pylint: disable=redefined-builtin
+    
     def __init__(self, dict=None, **kwargs):
         """
         Constructor for the data class

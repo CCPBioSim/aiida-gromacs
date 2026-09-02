@@ -26,7 +26,7 @@ cmdline_options = {
 }
 
 
-class GromppParameters(Dict):  # pylint: disable=too-many-ancestors
+class GromppParameters(Dict):
     """
     Command line options for diff.
 
@@ -36,8 +36,7 @@ class GromppParameters(Dict):  # pylint: disable=too-many-ancestors
 
     # "voluptuous" schema  to add automatic validation
     schema = Schema(cmdline_options)
-
-    # pylint: disable=redefined-builtin
+    
     def __init__(self, dict=None, **kwargs):
         """
         Constructor for the data class

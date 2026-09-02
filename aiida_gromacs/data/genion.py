@@ -26,7 +26,7 @@ cmdline_options = {
 }
 
 
-class GenionParameters(Dict):  # pylint: disable=too-many-ancestors
+class GenionParameters(Dict):
     """
     Command line options for diff.
 
@@ -36,8 +36,7 @@ class GenionParameters(Dict):  # pylint: disable=too-many-ancestors
 
     # "voluptuous" schema  to add automatic validation
     schema = Schema(cmdline_options)
-
-    # pylint: disable=redefined-builtin
+    
     def __init__(self, dict=None, **kwargs):
         """
         Constructor for the data class

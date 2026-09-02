@@ -27,7 +27,6 @@ def test_qb_returns(gromacs_code):
     :type gromacs_code: :py:class:`aiida.orm.nodes.data.code.installed.InstalledCode`
     """
 
-    # pylint: disable=unused-variable
     result, output_dir = test_calcs_genericMD.run_genericMD_pdb2gmx(gromacs_code)
     qb = searchprevious.build_query()
     expected_outputs = [
@@ -51,7 +50,6 @@ def test_previous_input_retrieval(gromacs_code):
     :type gromacs_code: :py:class:`aiida.orm.nodes.data.code.installed.InstalledCode`
     """
 
-    # pylint: disable=unused-variable
     result, output_dir = test_calcs_genericMD.run_genericMD_pdb2gmx(gromacs_code)
 
     qb = searchprevious.build_query()

@@ -62,7 +62,6 @@ def launch(params):
 
     # check if a pytest test is running, if so run rather than submit aiida job
     # Note: in order to submit your calculation to the aiida daemon, do:
-    # pylint: disable=unused-variable
     if "PYTEST_CURRENT_TEST" in os.environ:
         future = engine.run(CalculationFactory("gromacs.solvate"), **inputs)
     else:
@@ -88,7 +87,6 @@ def launch(params):
 @click.option("-maxsol", type=str, help="Maximum number of solvent molecules to add if they fit in the box. If zero (default) this is ignored")
 @click.option("-vel", type=str, help="Keep velocities from input solute and solvent")
 def cli(*args, **kwargs):
-    # pylint: disable=unused-argument
     """Run example.
 
     Example usage:
@@ -107,4 +105,4 @@ def cli(*args, **kwargs):
 
 
 if __name__ == "__main__":
-    cli()  # pylint: disable=no-value-for-parameter
+    cli()

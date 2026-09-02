@@ -62,7 +62,6 @@ def launch(params):
 
     # check if a pytest test is running, if so run rather than submit aiida job
     # Note: in order to submit your calculation to the aiida daemon, do:
-    # pylint: disable=unused-variable
     if "PYTEST_CURRENT_TEST" in os.environ:
         future = engine.run(CalculationFactory("gromacs.editconf"), **inputs)
     else:
@@ -108,7 +107,6 @@ def launch(params):
 @click.option("-label", type=str, help="Add chain label for all residues")
 @click.option("-conect", type=str, help="Add CONECT records to a .pdb file when written. Can only be done when a topology is present")
 def cli(*args, **kwargs):
-    # pylint: disable=unused-argument
     """Run example.
 
     Example usage:
@@ -127,4 +125,4 @@ def cli(*args, **kwargs):
 
 
 if __name__ == "__main__":
-    cli()  # pylint: disable=no-value-for-parameter
+    cli()

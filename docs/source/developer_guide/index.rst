@@ -37,11 +37,6 @@ Enable enable automatic checks of code sanity and coding style::
     pip install -e .[pre-commit]
     pre-commit install
 
-After this, the `yapf <https://github.com/google/yapf>`_ formatter,
-the `pylint <https://www.pylint.org/>`_ linter
-and the `pylint <https://www.pylint.org/>`_ code analyzer will
-run at every commit.
-
 If you ever need to skip these pre-commit hooks, just use::
 
     git commit -n

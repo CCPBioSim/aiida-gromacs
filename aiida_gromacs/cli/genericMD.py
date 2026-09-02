@@ -90,7 +90,6 @@ def launch_genericMD(options):
 
     # check if a pytest test is running, if so run rather than submit aiida job
     # Submit your calculation to the aiida daemon
-    # pylint: disable=unused-variable
     if "PYTEST_CURRENT_TEST" in os.environ:
         future = engine.run(CalculationFactory("gromacs.genericMD"), 
                                **process_inputs)
@@ -161,4 +160,4 @@ def cli(**kwargs):
 
 
 if __name__ == "__main__":
-    cli()  # pylint: disable=no-value-for-parameter
+    cli()
