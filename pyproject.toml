@@ -43,9 +43,9 @@ testing = [
     "pytest-sugar==1.1.1"
 ]
 pre-commit = [
-    "pre-commit>=4.5,<5.0",
+    "pre-commit>=6.0,<7.0",
     "ruff>=0.16,<0.17",
-    "rstcheck>=6.2,<7.0"
+    "rstcheck>=6.3,<7.0"
 ]
 docs = [
     "sphinx",
