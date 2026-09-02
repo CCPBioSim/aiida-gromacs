@@ -3,7 +3,7 @@
 Display provenance of processes run on current loaded profile
 """
 
-from aiida import orm, load_profile
+from aiida import load_profile, orm
 
 
 def show_provenance_text():
@@ -13,7 +13,7 @@ def show_provenance_text():
     load_profile()
     qb = orm.QueryBuilder()
     # get all processes and order from oldest to newest
-    qb.append(orm.ProcessNode, tag='process')
+    qb.append(orm.ProcessNode, tag="process")
     qb.order_by({orm.ProcessNode: {"ctime": "asc"}})
 
     output_pks = {}
@@ -32,7 +32,6 @@ def show_provenance_text():
             if link_triple.link_label == "command":
                 command = link_triple.node.value
 
-
         incoming = entry.get_incoming().all_nodes()
         outgoing = entry.get_outgoing().all_nodes()
         input_files = []
@@ -48,28 +47,27 @@ def show_provenance_text():
                 input_files.append(input_str)
         for outputs in outgoing:
             if outputs.pk not in output_pks:
-                output_pks[outputs.pk] = i+1 
+                output_pks[outputs.pk] = i + 1
             if isinstance(outputs, orm.SinglefileData):
                 output_files.append(outputs.filename)
 
-        inputs_str = '\n\t\t'.join(input_files)
-        outputs_str = '\n\t\t'.join(output_files)
+        inputs_str = "\n\t\t".join(input_files)
+        outputs_str = "\n\t\t".join(output_files)
         output = (
-                f"\nStep {i+1}."
-                f"\n\tcommand: {command}"
-                f"\n\texecutable: {executable}"
-                f"\n\tinput files: \n\t\t{inputs_str}"
-                f"\n\toutput files: \n\t\t{outputs_str}")
+            f"\nStep {i + 1}."
+            f"\n\tcommand: {command}"
+            f"\n\texecutable: {executable}"
+            f"\n\tinput files: \n\t\t{inputs_str}"
+            f"\n\toutput files: \n\t\t{outputs_str}"
+        )
         print(output)
 
 
-
 def open_file(file):
-    """
-    """
+    """ """
     lines = None
     try:
-        with file.open(mode='r') as handle:
+        with file.open(mode="r") as handle:
             lines = handle.readlines()
     except UnicodeDecodeError:
         pass

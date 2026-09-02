@@ -6,9 +6,8 @@ Register data types via the "aiida.data" entry point in setup.json.
 
 # You can directly use or subclass aiida.orm.data.Data
 # or any other data type listed under 'verdi data'
-from voluptuous import Optional, Required, Schema
-
 from aiida.orm import Dict
+from voluptuous import Optional, Required, Schema
 
 # A subset of mdrun command line options
 cmdline_options = {
@@ -31,7 +30,7 @@ cmdline_options = {
     Optional("rt"): str,
     Optional("mtx"): str,
     Optional("if"): str,
-    Optional("swap"): str, 
+    Optional("swap"): str,
     Optional("xvg"): str,
     Optional("dd"): str,
     Optional("ddorder"): str,
@@ -71,7 +70,7 @@ cmdline_options = {
 }
 
 
-class MdrunParameters(Dict):  # pylint: disable=too-many-ancestors
+class MdrunParameters(Dict):
     """
     Command line options for diff.
 
@@ -82,7 +81,6 @@ class MdrunParameters(Dict):  # pylint: disable=too-many-ancestors
     # "voluptuous" schema  to add automatic validation
     schema = Schema(cmdline_options)
 
-    # pylint: disable=redefined-builtin
     def __init__(self, dict=None, **kwargs):
         """
         Constructor for the data class
@@ -122,18 +120,30 @@ class MdrunParameters(Dict):  # pylint: disable=too-many-ancestors
 
         parameters.append("mdrun")
         parameters.extend(["-s", input_files["tprfile"]])
-        if "cpi_file" in input_files: parameters.extend(["-cpi", input_files["cpi_file"]])
-        if "table_file" in input_files: parameters.extend(["-table", input_files["table_file"]])
-        if "tableb_file" in input_files: parameters.extend(["-tableb", input_files["tableb_file"]])
-        if "tablep_file" in input_files: parameters.extend(["-tablep", input_files["tablep_file"]])
-        if "rerun_file" in input_files: parameters.extend(["-rerun", input_files["rerun_file"]])
-        if "ei_file" in input_files: parameters.extend(["-ei", input_files["ei_file"]])
-        if "multidir_file" in input_files: parameters.extend(["-multidir", input_files["multidir_file"]])
-        if "awh_file" in input_files: parameters.extend(["-awh", input_files["awh_file"]])
-        if "membed_file" in input_files: parameters.extend(["-membed", input_files["membed_file"]])
-        if "mp_file" in input_files: parameters.extend(["-mp", input_files["mp_file"]])
-        if "mn_file" in input_files: parameters.extend(["-mn", input_files["mn_file"]])
-        if "plumed_file" in input_files: parameters.extend(["-plumed", input_files["plumed_file"]])
+        if "cpi_file" in input_files:
+            parameters.extend(["-cpi", input_files["cpi_file"]])
+        if "table_file" in input_files:
+            parameters.extend(["-table", input_files["table_file"]])
+        if "tableb_file" in input_files:
+            parameters.extend(["-tableb", input_files["tableb_file"]])
+        if "tablep_file" in input_files:
+            parameters.extend(["-tablep", input_files["tablep_file"]])
+        if "rerun_file" in input_files:
+            parameters.extend(["-rerun", input_files["rerun_file"]])
+        if "ei_file" in input_files:
+            parameters.extend(["-ei", input_files["ei_file"]])
+        if "multidir_file" in input_files:
+            parameters.extend(["-multidir", input_files["multidir_file"]])
+        if "awh_file" in input_files:
+            parameters.extend(["-awh", input_files["awh_file"]])
+        if "membed_file" in input_files:
+            parameters.extend(["-membed", input_files["membed_file"]])
+        if "mp_file" in input_files:
+            parameters.extend(["-mp", input_files["mp_file"]])
+        if "mn_file" in input_files:
+            parameters.extend(["-mn", input_files["mn_file"]])
+        if "plumed_file" in input_files:
+            parameters.extend(["-plumed", input_files["plumed_file"]])
 
         parm_dict = self.get_dict()
 

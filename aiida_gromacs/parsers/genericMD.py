@@ -4,7 +4,6 @@ Parsers provided by aiida_gromacs.
 This parser saves outputted files from a generic command.
 """
 
-import os
 import re
 
 from aiida.common import exceptions
@@ -30,7 +29,7 @@ class GenericParser(Parser):
         """
         Initialize Parser instance
 
-        Checks that the ProcessNode being passed was produced by a 
+        Checks that the ProcessNode being passed was produced by a
         GenericCalculation.
 
         :param node: ProcessNode of calculation
@@ -44,7 +43,7 @@ class GenericParser(Parser):
         """
         Parse outputs, store results in the AiiDA database.
 
-        :returns: an exit code, if parsing fails or the user defined 
+        :returns: an exit code, if parsing fails or the user defined
             output files are not returned
         """
 
@@ -61,13 +60,12 @@ class GenericParser(Parser):
             for name in self.node.inputs.output_files:
                 files_expected.extend([str(name)])
 
-        # Check all outputted files produced have been previously 
+        # Check all outputted files produced have been previously
         # defined by the user
         for file in files_expected:
             if file not in files_retrieved:
                 self.logger.error(
-                    f"User defined output file '{file}' not in "
-                    f"list of retrieved files '{files_retrieved}'"
+                    f"User defined output file '{file}' not in list of retrieved files '{files_retrieved}'"
                 )
                 return self.exit_codes.ERROR_UNTRACKED_OUTPUT_FILES
 
@@ -86,7 +84,7 @@ class GenericParser(Parser):
         fileparsers.parse_process_files(self, files_retrieved, output_dir)
 
         return ExitCode(0)
-    
+
     @staticmethod
     def format_link_label(filename: str) -> str:
         """

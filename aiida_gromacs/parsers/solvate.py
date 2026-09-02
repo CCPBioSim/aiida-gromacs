@@ -3,8 +3,10 @@ Parsers provided by aiida_gromacs.
 
 This parser adds the ability to parse the outputs of the 'gmx solvate' executable.
 """
+
 import os
 from pathlib import Path
+
 from aiida.common import exceptions
 from aiida.engine import ExitCode
 from aiida.orm import SinglefileData
@@ -52,9 +54,7 @@ class SolvateParser(Parser):
 
         # Note: set(A) <= set(B) checks whether A is a subset of B
         if not set(files_expected) <= set(files_retrieved):
-            self.logger.error(
-                f"Found files '{files_retrieved}', expected to find '{files_expected}'"
-            )
+            self.logger.error(f"Found files '{files_retrieved}', expected to find '{files_expected}'")
             return self.exit_codes.ERROR_MISSING_OUTPUT_FILES
 
         # add outputs

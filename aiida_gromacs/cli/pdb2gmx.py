@@ -5,10 +5,9 @@ Usage: gmx_pdb2gmx --help
 """
 
 import os
-import sys
-import click
 
-from aiida import cmdline, engine, orm
+import click
+from aiida import cmdline, engine
 from aiida.plugins import CalculationFactory, DataFactory
 
 from aiida_gromacs import helpers
@@ -22,7 +21,7 @@ def launch(params):
     """
 
     # Prune unused CLI parameters from dict.
-    params = {k:v for k,v in params.items() if v != None}
+    params = {k: v for k, v in params.items() if v is not None}
 
     # dict to hold our calculation data.
     inputs = {
@@ -41,7 +40,7 @@ def launch(params):
     # save the full command as a string in the inputs dict
     inputs = searchprevious.save_command("gmx pdb2gmx", params, inputs)
 
-    input_file_labels = {} # dict used for finding previous nodes
+    input_file_labels = {}  # dict used for finding previous nodes
     input_file_labels[params["f"]] = "pdbfile"
 
     # Prepare input parameters in AiiDA formats.
@@ -56,32 +55,40 @@ def launch(params):
 
     # check if a pytest test is running, if so run rather than submit aiida job
     # Note: in order to submit your calculation to the aiida daemon, do:
-    # pylint: disable=unused-variable
     if "PYTEST_CURRENT_TEST" in os.environ:
-        future = engine.run(CalculationFactory("gromacs.pdb2gmx"), **inputs)
+        engine.run(CalculationFactory("gromacs.pdb2gmx"), **inputs)
     else:
-        future = engine.submit(CalculationFactory("gromacs.pdb2gmx"), **inputs)
+        engine.submit(CalculationFactory("gromacs.pdb2gmx"), **inputs)
 
 
 @click.command()
 @cmdline.utils.decorators.with_dbenv()
 @cmdline.params.options.CODE()
 # Plugin options
-@click.option("--description", default="record pdb2gmx data provenance via the aiida_gromacs plugin", type=str, help="Short metadata description")
+@click.option(
+    "--description",
+    default="record pdb2gmx data provenance via the aiida_gromacs plugin",
+    type=str,
+    help="Short metadata description",
+)
 # Input file options
 @click.option("-f", default="prot.pdb", type=str, help="Input structure file")
-# Output file options 
+# Output file options
 @click.option("-o", default="conf.gro", type=str, help="Output structure file")
 @click.option("-p", default="topol.top", type=str, help="Output topology file")
 @click.option("-i", default="posre.itp", type=str, help="Output itp file")
 @click.option("-n", type=str, help="Output index file")
 @click.option("-q", type=str, help="Output Structure file")
 # Parameter options
-@click.option("-chainsep", type=str, help="Condition in PDB files when a new chain should be started (adding termini): id_or_ter, id_and_ter, ter, id, interactive")
+@click.option(
+    "-chainsep",
+    type=str,
+    help="Condition in PDB files when a new chain should be started (adding termini): id_or_ter, id_and_ter, ter, "
+    "id, interactive",
+)
 @click.option("-merge", type=str, help="Merge multiple chains into a single [moleculetype]: no, all, interactive")
 @click.option("-ff", required=True, type=str, help="Forcefield")
 @click.option("-water", required=True, type=str, help="Water model")
-
 @click.option("-inter", type=str, help="Set the next 8 options to interactive")
 @click.option("-ss", type=str, help="Interactive SS bridge selection")
 @click.option("-ter", type=str, help="Interactive termini selection, instead of charged (default)")
@@ -93,7 +100,9 @@ def launch(params):
 @click.option("-his", type=str, help="Interactive histidine selection, instead of checking H-bonds")
 @click.option("-angle", type=str, help="Minimum hydrogen-donor-acceptor angle for a H-bond (degrees)")
 @click.option("-dist", type=str, help="Maximum donor-acceptor distance for a H-bond (nm)")
-@click.option("-una", type=str, help="Select aromatic rings with united CH atoms on phenylalanine, tryptophane and tyrosine")
+@click.option(
+    "-una", type=str, help="Select aromatic rings with united CH atoms on phenylalanine, tryptophane and tyrosine"
+)
 @click.option("-ignh", type=str, help="Ignore hydrogen atoms that are in the coordinate file")
 @click.option("-missing", type=str, help="Continue when atoms are missing and bonds cannot be made, dangerous")
 @click.option("-v", type=str, help="Force constant for position restraints")
@@ -106,18 +115,20 @@ def launch(params):
 @click.option("-renum", type=str, help="Renumber the residues consecutively in the output")
 @click.option("-rtpres", type=str, help="Use .rtp entry names as residue names")
 def cli(*args, **kwargs):
-    # pylint: disable=unused-argument
-    # pylint: disable=line-too-long
     """Run example.
 
     Example usage:
 
-    $ gmx_pdb2gmx --code gmx@localhost -f 1AKI_clean.pdb -ff oplsaa -water spce -o 1AKI_forcefield.gro -p 1AKI_topology.top -i 1AKI_restraints.itp
+    $ gmx_pdb2gmx --code gmx@localhost -f 1AKI_clean.pdb -ff oplsaa \
+        -water spce -o 1AKI_forcefield.gro -p 1AKI_topology.top \
+        -i 1AKI_restraints.itp
 
     Alternative (automatically tried to create gmx@localhost code, but requires
     gromacs to be installed and available in your environment path):
 
-    $ gmx_pdb2gmx -f 1AKI_clean.pdb -ff oplsaa -water spce -o 1AKI_forcefield.gro -p 1AKI_topology.top -i 1AKI_restraints.itp
+    $ gmx_pdb2gmx -f 1AKI_clean.pdb -ff oplsaa -water spce \
+        -o 1AKI_forcefield.gro -p 1AKI_topology.top \
+        -i 1AKI_restraints.itp
 
     Help: $ gmx_pdb2gmx --help
     """
@@ -126,4 +137,4 @@ def cli(*args, **kwargs):
 
 
 if __name__ == "__main__":
-    cli()  # pylint: disable=no-value-for-parameter
+    cli()

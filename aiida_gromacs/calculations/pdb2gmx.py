@@ -3,6 +3,7 @@ Calculations provided by aiida_gromacs.
 
 This calculation configures the ability to use the 'gmx pdb2gmx' executable.
 """
+
 import os
 
 from aiida.common import CalcInfo, CodeInfo
@@ -38,7 +39,7 @@ class Pdb2gmxCalculation(CalcJob):
             'num_machines': 1,
             'num_mpiprocs_per_machine': 1,
         }
-        
+
         # Required inputs.
         spec.inputs['metadata']['options']['parser_name'].default = 'gromacs.pdb2gmx'
         spec.input('metadata.options.output_filename', valid_type=str, default='pdb2gmx.out')
@@ -52,12 +53,13 @@ class Pdb2gmxCalculation(CalcJob):
         spec.output('grofile', valid_type=SinglefileData, help='Output forcefield compliant file.')
         spec.output('topfile', valid_type=SinglefileData, help='Output forcefield compliant file.')
         spec.output('itpfile', valid_type=SinglefileData, help='Output forcefield compliant file.')
-        
+
         # Optional outputs.
         spec.output('n_file', required=False, valid_type=SinglefileData, help='Output index file')
         spec.output('q_file', required=False, valid_type=SinglefileData, help='Output Structure file')
 
-        spec.exit_code(300, 'ERROR_MISSING_OUTPUT_FILES', message='Calculation did not produce all expected output files.')
+        spec.exit_code(300, 'ERROR_MISSING_OUTPUT_FILES', message='Calculation did not produce all expected ' \
+        'output files.')
 
     def prepare_for_submission(self, folder):
         """
@@ -70,7 +72,7 @@ class Pdb2gmxCalculation(CalcJob):
         codeinfo = CodeInfo()
 
         # Setup data structures for files.
-        output_options = ["o", "p", "i", "n", "q"] 
+        output_options = ["o", "p", "i", "n", "q"]
         output_files = []
 
         # Add output files to retrieve list.
@@ -79,10 +81,7 @@ class Pdb2gmxCalculation(CalcJob):
             if item in self.inputs.parameters:
                 output_files.append(self.inputs.parameters[item])
 
-
-        codeinfo.cmdline_params = self.inputs.parameters.cmdline_params(
-            pdbfile=self.inputs.pdbfile.filename
-        )
+        codeinfo.cmdline_params = self.inputs.parameters.cmdline_params(pdbfile=self.inputs.pdbfile.filename)
         codeinfo.code_uuid = self.inputs.code.uuid
         codeinfo.stdout_name = self.metadata.options.output_filename
         codeinfo.withmpi = self.inputs.metadata.options.withmpi

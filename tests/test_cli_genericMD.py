@@ -1,6 +1,4 @@
-""" Test for genericMD cli script
-
-"""
+"""Test for genericMD cli script"""
 
 import os
 import subprocess
@@ -30,8 +28,7 @@ def test_launch_genericMD():
             "--code",
             "gmx@localhost",
             "--command",
-            "grompp -o 1AKI_ions.tpr -f grompp_ions.mdp -c "
-            "solvate_1AKI_newbox.gro -p solvate_1AKI_topology.top",
+            "grompp -o 1AKI_ions.tpr -f grompp_ions.mdp -c solvate_1AKI_newbox.gro -p solvate_1AKI_topology.top",
             "--inputs",
             mdp_file,
             "--inputs",
@@ -45,9 +42,7 @@ def test_launch_genericMD():
         ]
     )
     # append run process to qb
-    # pylint: disable=unused-variable
     qb = searchprevious.build_query()
-    # pylint: disable=unsubscriptable-object
     prev_calc = qb.first()[0]
     # check the process has finished and exited correctly
     assert prev_calc.process_state == ProcessState.FINISHED

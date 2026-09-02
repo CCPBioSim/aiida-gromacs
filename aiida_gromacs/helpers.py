@@ -1,4 +1,4 @@
-""" Helper functions for automatically setting up computer & code.
+"""Helper functions for automatically setting up computer & code.
 Helper functions for setting up
 
  1. An AiiDA localhost computer
@@ -7,12 +7,13 @@ Helper functions for setting up
 Note: Point 2 is made possible by the fact that the ``diff`` executable is
 available in the PATH on almost any UNIX system.
 """
+
 import shutil
 import tempfile
 
-from aiida.common.exceptions import NotExistent
 from aiida.common import exceptions
-from aiida.orm import InstalledCode, Computer, load_code
+from aiida.common.exceptions import NotExistent
+from aiida.orm import Computer, InstalledCode, load_code
 
 LOCALHOST_NAME = "localhost"
 
@@ -24,7 +25,7 @@ executables = {
 
 def get_path_to_executable(executable):
     """Get path to local executable.
-    
+
     :param executable: Name of executable in the $PATH variable
     :type executable: str
     :return: path to executable
@@ -86,15 +87,13 @@ def get_code(entry_point, computer):
             f"Entry point '{entry_point}' not recognized. Allowed values: {list(executables.keys())}"
         ) from exc
 
-    codes = InstalledCode.collection.find(
-        filters={"label": executable}
-    )  # pylint: disable=no-member
+    codes = InstalledCode.collection.find(filters={"label": executable})
     if codes:
         return codes[0]
 
     path = get_path_to_executable(executable)
     code = InstalledCode(
-        label = executable,
+        label=executable,
         default_calc_job_plugin=entry_point,
         computer=computer,
         filepath_executable=path,
@@ -113,11 +112,9 @@ def setup_generic_code(code):
         code = load_code(code)
     except exceptions.NotExistent:
         # Setting up code via python API (or use "verdi code setup")
-        executable = code.split('@')[0]
+        executable = code.split("@")[0]
         path = get_path_to_executable(executable)
         code = InstalledCode(
-            label=executable, computer= get_computer(), 
-            filepath_executable=path, 
-            default_calc_job_plugin='genericMD'
+            label=executable, computer=get_computer(), filepath_executable=path, default_calc_job_plugin="genericMD"
         )
     return code

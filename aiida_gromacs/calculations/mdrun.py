@@ -3,11 +3,12 @@ Calculations provided by aiida_gromacs.
 
 This calculation configures the ability to use the 'gmx mdrun' executable.
 """
+
 import os
 
 from aiida.common import CalcInfo, CodeInfo
 from aiida.engine import CalcJob
-from aiida.orm import SinglefileData, Dict, Str, FolderData, List
+from aiida.orm import Dict, FolderData, List, SinglefileData, Str
 from aiida.plugins import DataFactory
 
 MdrunParameters = DataFactory("gromacs.mdrun")
@@ -55,7 +56,8 @@ class MdrunCalculation(CalcJob):
         spec.input('table_file', valid_type=SinglefileData, required=False, help='xvgr/xmgr file')
         spec.input('tableb_file', valid_type=SinglefileData, required=False, help='xvgr/xmgr file')
         spec.input('tablep_file', valid_type=SinglefileData, required=False, help='xvgr/xmgr file')
-        spec.input('rerun_file', valid_type=SinglefileData, required=False, help='Trajectory: xtc trr cpt gro g96 pdb tng')
+        spec.input('rerun_file', valid_type=SinglefileData, required=False, help='Trajectory: xtc ' \
+        'trr cpt gro g96 pdb tng')
         spec.input('ei_file', valid_type=SinglefileData, required=False, help='ED sampling input')
         spec.input('multidir_file', valid_type=SinglefileData, required=False, help='Run directory')
         spec.input('awh_file', valid_type=SinglefileData, required=False, help='xvgr/xmgr file')
@@ -76,7 +78,8 @@ class MdrunCalculation(CalcJob):
         spec.output('enfile', valid_type=SinglefileData, help='Output energy file.')
 
         # Optional outputs.
-        spec.output('x_file', required=False, valid_type=SinglefileData, help='Compressed trajectory (tng format or portable xdr format)')
+        spec.output('x_file', required=False, valid_type=SinglefileData, help='Compressed trajectory '
+        '(tng format or portable xdr format)')
         spec.output('cpo_file', required=False, valid_type=SinglefileData, help='Checkpoint file.')
         spec.output('dhdl_file', required=False, valid_type=SinglefileData, help='xvgr/xmgr file')
         spec.output('field_file', required=False, valid_type=SinglefileData, help='xvgr/xmgr file')
@@ -108,7 +111,8 @@ class MdrunCalculation(CalcJob):
         spec.outputs.dynamic = True
         spec.inputs['metadata']['options'].dynamic = True
 
-        spec.exit_code(300, 'ERROR_MISSING_OUTPUT_FILES', message='Calculation did not produce all expected output files.')
+        spec.exit_code(300, 'ERROR_MISSING_OUTPUT_FILES', message='Calculation did not produce all expected ' \
+        'output files.')
 
     def prepare_for_submission(self, folder):
         """
@@ -121,12 +125,50 @@ class MdrunCalculation(CalcJob):
         codeinfo = CodeInfo()
 
         # Setup data structures for files.
-        input_options = ["tprfile", "cpi_file", "table_file", "tableb_file", "tablep_file", "rerun_file", "ei_file", "multidir_file", "awh_file", "membed_file", "mp_file", "mn_file", "plumed_file", "plumed_inpfiles", "plumed_dirs"]
-        output_options = ["c", "e", "g", "o", "x", "cpo", "dhdl", "field", "tpi", "tpid", "eo", "px", "pf", "ro", "ra", "rs", "rt", "mtx", "if", "swap", "logfile_metadata"]
+        input_options = [
+            "tprfile",
+            "cpi_file",
+            "table_file",
+            "tableb_file",
+            "tablep_file",
+            "rerun_file",
+            "ei_file",
+            "multidir_file",
+            "awh_file",
+            "membed_file",
+            "mp_file",
+            "mn_file",
+            "plumed_file",
+            "plumed_inpfiles",
+            "plumed_dirs",
+        ]
+        output_options = [
+            "c",
+            "e",
+            "g",
+            "o",
+            "x",
+            "cpo",
+            "dhdl",
+            "field",
+            "tpi",
+            "tpid",
+            "eo",
+            "px",
+            "pf",
+            "ro",
+            "ra",
+            "rs",
+            "rt",
+            "mtx",
+            "if",
+            "swap",
+            "logfile_metadata",
+        ]
         cmdline_input_files = {}
         input_files = []
         output_files = []
-                
+
         # Map input files to AiiDA plugin data types.
         for item in input_options:
             if item in self.inputs:
@@ -170,7 +212,7 @@ class MdrunCalculation(CalcJob):
 
         # Form the commandline.
         codeinfo.cmdline_params = self.inputs.parameters.cmdline_params(cmdline_input_files)
-        
+
         codeinfo.code_uuid = self.inputs.code.uuid
         codeinfo.stdout_name = self.metadata.options.output_filename
         codeinfo.withmpi = self.inputs.metadata.options.withmpi

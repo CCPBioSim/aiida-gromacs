@@ -1,6 +1,5 @@
-""" Test for plumed input parser functions
+"""Test for plumed input parser functions"""
 
-"""
 import os
 
 from aiida_gromacs.data.plumed_input import PlumedInputData
@@ -12,9 +11,7 @@ def test_PlumedInputData():
     inputs = {}
     # Prepare input parameters in AiiDA formats.
     # Set the plumed script as a PlumedInputData type node
-    inputs["plumedscript"] = PlumedInputData(
-        file=os.path.join(os.getcwd(), "tests/input_files", "mdrun_plumed.dat")
-    )
+    inputs["plumedscript"] = PlumedInputData(file=os.path.join(os.getcwd(), "tests/input_files", "mdrun_plumed.dat"))
 
     # Find the inputs and outputs referenced in the plumed script
     calc_inputs, calc_outputs = inputs["plumedscript"].calculation_inputs_outputs

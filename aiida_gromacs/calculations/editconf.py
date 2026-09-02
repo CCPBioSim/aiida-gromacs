@@ -3,7 +3,8 @@ Calculations provided by aiida_gromacs.
 
 This calculation configures the ability to use the 'gmx editconf' executable.
 """
-import os 
+
+import os
 
 from aiida.common import CalcInfo, CodeInfo
 from aiida.engine import CalcJob
@@ -58,7 +59,8 @@ class EditconfCalculation(CalcJob):
         # Optional outputs.
         spec.output('mead_file', required=False, valid_type=SinglefileData, help='Coordination file for MEAD')
 
-        spec.exit_code(300, 'ERROR_MISSING_OUTPUT_FILES', message='Calculation did not produce all expected output files.')
+        spec.exit_code(300, 'ERROR_MISSING_OUTPUT_FILES', message='Calculation did not produce all expected ' \
+        'output files.')
 
     def prepare_for_submission(self, folder):
         """
@@ -73,7 +75,7 @@ class EditconfCalculation(CalcJob):
 
         # Setup data structures for files.
         input_options = ["grofile", "n_file", "bf_file"]
-        output_options = ["o", "mead"] 
+        output_options = ["o", "mead"]
         cmdline_input_files = {}
         input_files = []
         output_files = []
@@ -82,12 +84,14 @@ class EditconfCalculation(CalcJob):
         for item in input_options:
             if item in self.inputs:
                 cmdline_input_files[item] = self.inputs[item].filename
-                input_files.append((
+                input_files.append(
+                    (
                         self.inputs[item].uuid,
                         self.inputs[item].filename,
                         self.inputs[item].filename,
-                    ))
-                    
+                    )
+                )
+
         # Add output files to retrieve list.
         output_files.append(self.metadata.options.output_filename)
         for item in output_options:

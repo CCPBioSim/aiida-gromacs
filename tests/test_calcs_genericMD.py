@@ -1,6 +1,4 @@
-""" Test for genericMD calculation
-
-"""
+"""Test for genericMD calculation"""
 
 import os
 import shutil
@@ -93,7 +91,6 @@ def test_process(gromacs_code):
     Note: this does not test that the expected outputs are created of
     output parsing"""
 
-    # pylint: disable=unused-variable
     result, output_dir = run_genericMD_pdb2gmx(gromacs_code)
 
     assert "pdb2gmx_1AKI_forcefield_gro" in result
@@ -104,18 +101,8 @@ def test_process(gromacs_code):
 def test_file_name_match(gromacs_code):
     """Test that the file names returned match what was specified on inputs."""
 
-    # pylint: disable=unused-variable
     result, output_dir = run_genericMD_pdb2gmx(gromacs_code)
 
-    assert (
-        result["pdb2gmx_1AKI_forcefield_gro"].base.repository.list_object_names()[0]
-        == "pdb2gmx_1AKI_forcefield.gro"
-    )
-    assert (
-        result["pdb2gmx_1AKI_topology_top"].base.repository.list_object_names()[0]
-        == "pdb2gmx_1AKI_topology.top"
-    )
-    assert (
-        result["pdb2gmx_1AKI_restraints_itp"].base.repository.list_object_names()[0]
-        == "pdb2gmx_1AKI_restraints.itp"
-    )
+    assert result["pdb2gmx_1AKI_forcefield_gro"].base.repository.list_object_names()[0] == "pdb2gmx_1AKI_forcefield.gro"
+    assert result["pdb2gmx_1AKI_topology_top"].base.repository.list_object_names()[0] == "pdb2gmx_1AKI_topology.top"
+    assert result["pdb2gmx_1AKI_restraints_itp"].base.repository.list_object_names()[0] == "pdb2gmx_1AKI_restraints.itp"

@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 
-import sys,math,random
+import math
+import random
+import sys
 
 version   = "---"
 previous  = "20140603.11.TAW"

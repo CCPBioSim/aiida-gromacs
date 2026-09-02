@@ -1,6 +1,4 @@
-""" Test for mdrun cli script
-
-"""
+"""Test for mdrun cli script"""
 
 import os
 import subprocess
@@ -30,11 +28,9 @@ def test_launch_make_ndx():
         ]
     )
     # append run process to qb
-    # pylint: disable=unused-variable
     qb = searchprevious.build_query()
     # check the process has completed first
     # searchprevious.check_prev_process(qb)
-    # pylint: disable=unsubscriptable-object
     prev_calc = qb.first()[0]
     # check the process has finished and exited correctly
     assert prev_calc.process_state == ProcessState.FINISHED

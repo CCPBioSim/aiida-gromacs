@@ -3,8 +3,10 @@ Parsers provided by aiida_gromacs.
 
 This parser adds the ability to parse the outputs of the 'gmx editconf' executable.
 """
+
 import os
 from pathlib import Path
+
 from aiida.common import exceptions
 from aiida.engine import ExitCode
 from aiida.orm import SinglefileData
@@ -42,10 +44,7 @@ class EditconfParser(Parser):
         output_dir = Path(self.node.get_option("output_dir"))
         # Map output files to how they are named.
         outputs = ["stdout"]
-        output_template = {
-                "o": "grofile",
-                "mead": "mead_file"
-            }
+        output_template = {"o": "grofile", "mead": "mead_file"}
 
         for item in output_template:
             if item in self.node.inputs.parameters.keys():
@@ -55,13 +54,15 @@ class EditconfParser(Parser):
         files_retrieved = self.retrieved.base.repository.list_object_names()
 
         # Grab list of files expected and remove the scheduler stdout and stderr files.
-        files_expected = [files for files in self.node.get_option("retrieve_list") if files not in ["_scheduler-stdout.txt", "_scheduler-stderr.txt"]]
+        files_expected = [
+            files
+            for files in self.node.get_option("retrieve_list")
+            if files not in ["_scheduler-stdout.txt", "_scheduler-stderr.txt"]
+        ]
 
         # Check if the expected files are a subset of retrieved.
         if not set(files_expected) <= set(files_retrieved):
-            self.logger.error(
-                f"Found files '{files_retrieved}', expected to find '{files_expected}'"
-            )
+            self.logger.error(f"Found files '{files_retrieved}', expected to find '{files_expected}'")
             return self.exit_codes.ERROR_MISSING_OUTPUT_FILES
 
         # Map retrieved files to data nodes.

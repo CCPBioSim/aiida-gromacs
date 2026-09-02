@@ -1,11 +1,12 @@
 """pytest fixtures for simplified testing."""
+
 import pytest
 
 pytest_plugins = "aiida.tools.pytest_fixtures"
 
 
 @pytest.fixture(scope="function", autouse=True)
-def clear_database_auto(aiida_profile_clean):  # pylint: disable=unused-argument
+def clear_database_auto(aiida_profile_clean):
     """Automatically clear database in between tests."""
 
 

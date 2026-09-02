@@ -1,6 +1,4 @@
-""" Test for solvate cli script
-
-"""
+"""Test for solvate cli script"""
 
 import os
 import subprocess
@@ -34,9 +32,7 @@ def test_launch_solvate():
         ]
     )
     # append run process to qb
-    # pylint: disable=unused-variable
     qb = searchprevious.build_query()
-    # pylint: disable=unsubscriptable-object
     prev_calc = qb.first()[0]
     # check the process has finished and exited correctly
     assert prev_calc.process_state == ProcessState.FINISHED

@@ -6,9 +6,8 @@ Register data types via the "aiida.data" entry point in setup.json.
 
 # You can directly use or subclass aiida.orm.data.Data
 # or any other data type listed under 'verdi data'
-from voluptuous import Optional, Required, Schema
-
 from aiida.orm import Dict
+from voluptuous import Optional, Required, Schema
 
 # A subset of make_ndx command line options
 cmdline_options = {
@@ -19,7 +18,7 @@ cmdline_options = {
 }
 
 
-class Make_ndxParameters(Dict):  # pylint: disable=too-many-ancestors
+class Make_ndxParameters(Dict):
     """
     Command line options for diff.
 
@@ -30,7 +29,6 @@ class Make_ndxParameters(Dict):  # pylint: disable=too-many-ancestors
     # "voluptuous" schema  to add automatic validation
     schema = Schema(cmdline_options)
 
-    # pylint: disable=redefined-builtin
     def __init__(self, dict=None, **kwargs):
         """
         Constructor for the data class
@@ -69,8 +67,10 @@ class Make_ndxParameters(Dict):  # pylint: disable=too-many-ancestors
         parameters = []
 
         parameters.append("make_ndx")
-        if "grofile" in input_files: parameters.extend(["-f", input_files["grofile"]])
-        if "n_file" in input_files: parameters.extend(["-n", input_files["n_file"]])
+        if "grofile" in input_files:
+            parameters.extend(["-f", input_files["grofile"]])
+        if "n_file" in input_files:
+            parameters.extend(["-n", input_files["n_file"]])
 
         parm_dict = self.get_dict()
 

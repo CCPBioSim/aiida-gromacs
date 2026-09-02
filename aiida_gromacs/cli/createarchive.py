@@ -3,10 +3,12 @@
 Create AiiDA database archive from loaded profile.
 """
 
-from aiida import load_profile
-import subprocess
-import click
 import os
+import subprocess
+
+import click
+from aiida import load_profile
+
 
 def create_archive(options):
     """
@@ -16,7 +18,7 @@ def create_archive(options):
     output_file = options["filename"]
     load_profile()
     # Run the `verdi archive create` command using subprocess
-    subprocess.run(['verdi', 'archive', 'create', '--all', output_file])
+    subprocess.run(["verdi", "archive", "create", "--all", output_file])
 
 
 @click.command()
@@ -39,5 +41,4 @@ def cli(**kwargs):
 
 
 if __name__ == "__main__":
-    cli()  # pylint: disable=no-value-for-parameter
-
+    cli()
