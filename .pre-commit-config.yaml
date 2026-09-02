@@ -1,4 +1,4 @@
-exclude: ".*.gro|.*.top|.*.mdp|.*.pdb|insane_custom.py"
+exclude: ".*.gro|.*.top|.*.mdp|.*.pdb|.*.ipynb|insane_custom.py"
 
 repos:
   - repo: https://github.com/astral-sh/ruff-pre-commit
