@@ -1,6 +1,5 @@
-""" Tests for calculations
+"""Tests for calculations"""
 
-"""
 import os
 
 from aiida.engine import run
@@ -14,17 +13,11 @@ def run_solvate(gromacs_code):
 
     # Prepare input parameters
     SolvateParameters = DataFactory("gromacs.solvate")
-    parameters = SolvateParameters(
-        {"cs": "spc216.gro", "o": "solvate_1AKI_solvated.gro"}
-    )
+    parameters = SolvateParameters({"cs": "spc216.gro", "o": "solvate_1AKI_solvated.gro"})
 
     SinglefileData = DataFactory("core.singlefile")
-    grofile = SinglefileData(
-        file=os.path.join(TEST_DIR, "input_files", "solvate_1AKI_newbox.gro")
-    )
-    topfile = SinglefileData(
-        file=os.path.join(TEST_DIR, "input_files", "solvate_1AKI_topology.top")
-    )
+    grofile = SinglefileData(file=os.path.join(TEST_DIR, "input_files", "solvate_1AKI_newbox.gro"))
+    topfile = SinglefileData(file=os.path.join(TEST_DIR, "input_files", "solvate_1AKI_topology.top"))
 
     # set up calculation
     inputs = {
@@ -59,11 +52,5 @@ def test_file_name_match(gromacs_code):
     result = run_solvate(gromacs_code)
 
     assert result["stdout"].base.repository.list_object_names()[0] == "solvate.out"
-    assert (
-        result["grofile"].base.repository.list_object_names()[0]
-        == "solvate_1AKI_solvated.gro"
-    )
-    assert (
-        result["topfile"].base.repository.list_object_names()[0]
-        == "solvate_1AKI_topology.top"
-    )
+    assert result["grofile"].base.repository.list_object_names()[0] == "solvate_1AKI_solvated.gro"
+    assert result["topfile"].base.repository.list_object_names()[0] == "solvate_1AKI_topology.top"

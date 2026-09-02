@@ -1,6 +1,5 @@
-""" Tests for calculations
+"""Tests for calculations"""
 
-"""
 import os
 
 from aiida.engine import run
@@ -14,14 +13,10 @@ def run_editconf(gromacs_code):
 
     # Prepare input parameters
     EditconfParameters = DataFactory("gromacs.editconf")
-    parameters = EditconfParameters(
-        {"center": "0", "d": "1.0", "bt": "cubic", "o": "editconf_1AKI_newbox.gro"}
-    )
+    parameters = EditconfParameters({"center": "0", "d": "1.0", "bt": "cubic", "o": "editconf_1AKI_newbox.gro"})
 
     SinglefileData = DataFactory("core.singlefile")
-    grofile = SinglefileData(
-        file=os.path.join(TEST_DIR, "input_files", "editconf_1AKI_forcefield.gro")
-    )
+    grofile = SinglefileData(file=os.path.join(TEST_DIR, "input_files", "editconf_1AKI_forcefield.gro"))
 
     # set up calculation
     inputs = {
@@ -53,7 +48,4 @@ def test_file_name_match(gromacs_code):
     result = run_editconf(gromacs_code)
 
     assert result["stdout"].base.repository.list_object_names()[0] == "editconf.out"
-    assert (
-        result["grofile"].base.repository.list_object_names()[0]
-        == "editconf_1AKI_newbox.gro"
-    )
+    assert result["grofile"].base.repository.list_object_names()[0] == "editconf_1AKI_newbox.gro"

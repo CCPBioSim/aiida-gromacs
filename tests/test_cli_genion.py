@@ -1,6 +1,4 @@
-""" Test for genion cli script
-
-"""
+"""Test for genion cli script"""
 
 import os
 import subprocess

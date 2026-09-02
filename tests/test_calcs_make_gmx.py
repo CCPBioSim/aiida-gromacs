@@ -1,6 +1,5 @@
-""" Tests for calculations
+"""Tests for calculations"""
 
-"""
 import os
 
 from aiida.engine import run
@@ -21,12 +20,8 @@ def run_make_ndx(gromacs_code):
     )
 
     SinglefileData = DataFactory("core.singlefile")
-    gro_file = SinglefileData(
-        file=os.path.join(TEST_DIR, "input_files", "grompp2_1AKI_solvated_ions.gro")
-    )
-    n_file = SinglefileData(
-        file=os.path.join(TEST_DIR, "input_files", "make_ndx_interactive_inputs.txt")
-    )
+    gro_file = SinglefileData(file=os.path.join(TEST_DIR, "input_files", "grompp2_1AKI_solvated_ions.gro"))
+    n_file = SinglefileData(file=os.path.join(TEST_DIR, "input_files", "make_ndx_interactive_inputs.txt"))
 
     # set up calculation
     inputs = {

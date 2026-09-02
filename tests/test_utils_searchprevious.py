@@ -1,6 +1,5 @@
-""" Test for searchprevious utility functions
+"""Test for searchprevious utility functions"""
 
-"""
 import os
 
 from aiida import orm
@@ -70,10 +69,7 @@ def test_previous_input_retrieval(gromacs_code):
     ]
 
     # full editconf command to run
-    command = (
-        "editconf -f pdb2gmx_1AKI_forcefield.gro -center 0 0 0 -d 1.0 "
-        "-bt cubic -o editconf_1AKI_newbox.gro"
-    )
+    command = "editconf -f pdb2gmx_1AKI_forcefield.gro -center 0 0 0 -d 1.0 -bt cubic -o editconf_1AKI_newbox.gro"
 
     # create input dictionary for calculation.
     process_inputs = {
@@ -96,9 +92,7 @@ def test_previous_input_retrieval(gromacs_code):
     # as inputs for new process if file names match
     process_inputs_new = {}
     if qb.count() > 0:
-        process_inputs_new = searchprevious.append_prev_nodes(
-            qb, inputs, process_inputs.copy(), output_dir
-        )
+        process_inputs_new = searchprevious.append_prev_nodes(qb, inputs, process_inputs.copy(), output_dir)
 
     # check output grofile from pdb2gmx process is an input in the
     # editconf process

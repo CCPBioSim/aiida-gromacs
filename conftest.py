@@ -1,4 +1,5 @@
 """pytest fixtures for simplified testing."""
+
 import pytest
 
 pytest_plugins = "aiida.tools.pytest_fixtures"

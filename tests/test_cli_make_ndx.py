@@ -1,6 +1,4 @@
-""" Test for mdrun cli script
-
-"""
+"""Test for mdrun cli script"""
 
 import os
 import subprocess

@@ -1,6 +1,4 @@
-""" Test for solvate cli script
-
-"""
+"""Test for solvate cli script"""
 
 import os
 import subprocess

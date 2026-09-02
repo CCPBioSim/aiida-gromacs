@@ -1,6 +1,4 @@
-""" Test for editconf cli script
-
-"""
+"""Test for editconf cli script"""
 
 import os
 import subprocess

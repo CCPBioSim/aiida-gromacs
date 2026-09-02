@@ -1,6 +1,5 @@
-""" Tests for calculations
+"""Tests for calculations"""
 
-"""
 import os
 
 from aiida.engine import run
@@ -24,12 +23,8 @@ def run_genion(bash_code):
     )
 
     SinglefileData = DataFactory("core.singlefile")
-    tprfile = SinglefileData(
-        file=os.path.join(TEST_DIR, "input_files", "genion_1AKI_ions.tpr")
-    )
-    topfile = SinglefileData(
-        file=os.path.join(TEST_DIR, "input_files", "genion_1AKI_topology.top")
-    )
+    tprfile = SinglefileData(file=os.path.join(TEST_DIR, "input_files", "genion_1AKI_ions.tpr"))
+    topfile = SinglefileData(file=os.path.join(TEST_DIR, "input_files", "genion_1AKI_topology.top"))
 
     # set up calculation
     inputs = {
@@ -64,11 +59,5 @@ def test_file_name_match(bash_code):
     result = run_genion(bash_code)
 
     assert result["stdout"].base.repository.list_object_names()[0] == "genion.out"
-    assert (
-        result["grofile"].base.repository.list_object_names()[0]
-        == "genion_1AKI_solvated_ions.gro"
-    )
-    assert (
-        result["topfile"].base.repository.list_object_names()[0]
-        == "genion_1AKI_topology.top"
-    )
+    assert result["grofile"].base.repository.list_object_names()[0] == "genion_1AKI_solvated_ions.gro"
+    assert result["topfile"].base.repository.list_object_names()[0] == "genion_1AKI_topology.top"
