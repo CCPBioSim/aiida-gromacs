@@ -1,40 +1,39 @@
-# Install pre-commit hooks via:
-# pre-commit install
-exclude: ".*.gro|.*.top|.*.mdp|.*.top|.*.pdb|insane_custom.py"
+exclude: ".*.gro|.*.top|.*.mdp|.*.pdb|insane_custom.py"
+
 repos:
-- repo: https://github.com/pre-commit/pre-commit-hooks
-  rev: v4.4.0
-  hooks:
-    - id: end-of-file-fixer
-    - id: mixed-line-ending
-    - id: trailing-whitespace
-    - id: check-json
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.15.2
+    hooks:
+      - id: ruff-check
+        args: [--fix]
+      - id: ruff-format
 
-- repo: https://github.com/asottile/pyupgrade
-  rev: v3.3.1
-  hooks:
-  - id: pyupgrade
-    args: ["--py37-plus"]
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: check-added-large-files
+      - id: check-merge-conflict
+      - id: check-yaml
+        exclude: ^conda-recipe/meta\.yaml$
+      - id: check-toml
+      - id: check-case-conflict
+      - id: check-ast
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
 
-- repo: https://github.com/PyCQA/isort
-  rev: 5.12.0
-  hooks:
-    - id: isort
+  - repo: https://github.com/rstcheck/rstcheck
+    rev: v6.2.0
+    hooks:
+      - id: rstcheck
+        name: rstcheck (docstrings only)
+        files: \.py$
+        args: ["--report-level", "warning"]
 
-- repo: https://github.com/psf/black
-  rev: 23.3.0
-  hooks:
-    - id: black
-
-- repo: local
-  hooks:
-  - id: pylint
-    language: system
-    types: [file, python]
-    name: pylint
-    description: "This hook runs the pylint static code analyzer"
-    exclude: &exclude_files >
-      (?x)^(
-          docs/.*|
-      )$
-    entry: pylint
+  - repo: local
+    hooks:
+      - id: sphinx-docs
+        name: sphinx-build (pre-push, warnings as errors)
+        entry: bash -lc 'make -C docs clean && make -C docs html SPHINXOPTS="-W --keep-going"'
+        language: system
+        pass_filenames: false
+        stages: [pre-push]
