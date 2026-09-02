@@ -1,39 +1,42 @@
 """Sub class of `Data` to handle inputs used and outputs that will be produced
 from commands in the plumed input file.
 """
-import re
+
 import os
+import re
 import sys
-from aiida.orm import SinglefileData, FolderData, List
+
+from aiida.orm import FolderData, List, SinglefileData
+
 from aiida_gromacs.utils import inputFile_utils
 
-INPUT_KEYWORDS={
-        "READ_DISSIMILARITY_MATRIX": ["FILE"], 
-        "EXTERNAL": ["FILE"], 
-        "METAD": ["GRID_RFILE", "ACCELERATION_RFILE"], 
-        "PBMETAD": ["GRID_WFILES"],
+INPUT_KEYWORDS = {
+    "READ_DISSIMILARITY_MATRIX": ["FILE"],
+    "EXTERNAL": ["FILE"],
+    "METAD": ["GRID_RFILE", "ACCELERATION_RFILE"],
+    "PBMETAD": ["GRID_WFILES"],
 }
 
-OUTPUT_KEYWORDS={
-        "COMMITTOR": ["FILE"], 
-        "DUMPATOMS": ["FILE"], 
-        "DUMPCUBE": ["FILE"], 
-        "DUMPDERIVATIVES": ["FILE"], 
-        "DUMPFORCES": ["FILE"], 
-        "DUMPGRID": ["FILE"], 
-        "DUMPMASSCHARGE": ["FILE"], 
-        "DUMPMULTICOLVAR": ["FILE"], 
-        "DUMPPROJECTIONS": ["FILE"], 
-        "PRINT": ["FILE"], 
-        "GRID_TO_XYZ": ["FILE"], # default=density
-        "FIND_CONTOUR": ["FILE"], 
-        "PRINT_DISSIMILARITY_MATRIX": ["FILE"], 
-        "OUTPUT_PCA_PROJECTION": ["FILE"], 
-        "OUTPUT_ANALYSIS_DATA_TO_COLVAR": ["FILE"], 
-        "OUTPUT_ANALYSIS_DATA_TO_PDB": ["FILE"], 
-        "MAXENT": ["FILE"], # default=label name followed by the string .LAGMULT
-        "METAD": ["FILE", "GRID_WFILE"], 
-        "PBMETAD": ["FILE", "GRID_WFILES"],
+OUTPUT_KEYWORDS = {
+    "COMMITTOR": ["FILE"],
+    "DUMPATOMS": ["FILE"],
+    "DUMPCUBE": ["FILE"],
+    "DUMPDERIVATIVES": ["FILE"],
+    "DUMPFORCES": ["FILE"],
+    "DUMPGRID": ["FILE"],
+    "DUMPMASSCHARGE": ["FILE"],
+    "DUMPMULTICOLVAR": ["FILE"],
+    "DUMPPROJECTIONS": ["FILE"],
+    "PRINT": ["FILE"],
+    "GRID_TO_XYZ": ["FILE"],  # default=density
+    "FIND_CONTOUR": ["FILE"],
+    "PRINT_DISSIMILARITY_MATRIX": ["FILE"],
+    "OUTPUT_PCA_PROJECTION": ["FILE"],
+    "OUTPUT_ANALYSIS_DATA_TO_COLVAR": ["FILE"],
+    "OUTPUT_ANALYSIS_DATA_TO_PDB": ["FILE"],
+    "MAXENT": ["FILE"],  # default=label name followed by the string .LAGMULT
+    "METAD": ["FILE", "GRID_WFILE"],
+    "PBMETAD": ["FILE", "GRID_WFILES"],
 }
 
 
@@ -58,20 +61,17 @@ class PlumedInputData(SinglefileData):
 
     @property
     def inpfile_list(self):
-        """Return the list input files used in the plumed script
-        """
-        return self.base.attributes.get('input_files')
-    
+        """Return the list input files used in the plumed script"""
+        return self.base.attributes.get("input_files")
+
     @property
     def outfile_list(self):
-        """Return the list output files to be produced from the plumed script
-        """
-        return self.base.attributes.get('output_files')
+        """Return the list output files to be produced from the plumed script"""
+        return self.base.attributes.get("output_files")
 
     @property
     def calculation_inputs_outputs(self):
-        """Return the inputs for the plumed calculation job
-        """
+        """Return the inputs for the plumed calculation job"""
         input_files = self.inpfile_list
         subdirs, files = inputFile_utils.check_filepath(input_files)
         calc_inputs = add_calculation_inputs(subdirs, files)
@@ -92,18 +92,18 @@ def find_filename_from_string(head, values, filenames):
     :returns: list of filenames found in parsed plumed input file
     :rtype: list
     """
-    split_line = head.split('=')
+    split_line = head.split("=")
     if len(split_line) > 0:
         for s, split in enumerate(split_line):
             for value in values:
                 filename = None
                 if re.search(value, split, re.IGNORECASE):
-                    filename = split_line[s+1]
+                    filename = split_line[s + 1]
                 if filename:
                     # consider all ways spaces could be in comma separation
                     # between filenames
                     if "," in filename:
-                        split_filenames = filename.split(',')
+                        split_filenames = filename.split(",")
                         for split_filename in split_filenames:
                             if " " not in split_filename:
                                 filenames.append(split_filename)
@@ -143,7 +143,7 @@ def find_plumed_filenames(keywords, i, line, lines):
             if re.search(keyword, head.split()[0], re.IGNORECASE):
                 if "..." in head:
                     # parse lines after '...' where variables are defined
-                    for line2 in lines[i+1:]:
+                    for line2 in lines[i + 1 :]:
                         head2, sep2, tail2 = line2.partition("#")
                         if "..." not in line2:
                             find_filename_from_string(head2, values, filenames)
@@ -157,11 +157,12 @@ def find_plumed_filenames(keywords, i, line, lines):
 
     return filenames
 
+
 def parse_plumed_input_file(lines):
-    """Parse plumed input file and find any instances of reading input files 
-    and writing output files. Find the lines that contain the keyword and 
-    then find the FILE keyword in the subsequent lines, onces this is found, 
-    then stop and carry on with outer loop. If the FILE keyword does not exist, 
+    """Parse plumed input file and find any instances of reading input files
+    and writing output files. Find the lines that contain the keyword and
+    then find the FILE keyword in the subsequent lines, onces this is found,
+    then stop and carry on with outer loop. If the FILE keyword does not exist,
     there may be a default filename for some keywords.
 
     :param lines: parsed lines from the plumed input file
@@ -173,7 +174,6 @@ def parse_plumed_input_file(lines):
     for i, line in enumerate(lines):
         input_files += find_plumed_filenames(INPUT_KEYWORDS, i, line, lines)
         output_files += find_plumed_filenames(OUTPUT_KEYWORDS, i, line, lines)
-                        
 
     parsed_info = {}
     parsed_info["input_files"] = input_files
@@ -183,7 +183,7 @@ def parse_plumed_input_file(lines):
 
 
 def add_calculation_inputs(subdirs, files):
-    """If they exist, add input files for plumed and dirs into the calcjob 
+    """If they exist, add input files for plumed and dirs into the calcjob
     inputs directory
 
     :param subdirs: list of subdirectories that contain input files
@@ -199,19 +199,17 @@ def add_calculation_inputs(subdirs, files):
             formatted_filename = inputFile_utils.format_link_label(file)
             if os.path.isfile(file):
                 input_list.append(file)
-                calc_inputs["plumed_inpfiles"][formatted_filename] = \
-                    SinglefileData(file=os.path.join(os.getcwd(), file))
+                calc_inputs["plumed_inpfiles"][formatted_filename] = SinglefileData(
+                    file=os.path.join(os.getcwd(), file)
+                )
 
             elif "PYTEST_CURRENT_TEST" in os.environ:
-                test_path = os.path.join(os.getcwd(), 
-                                        'tests/input_files', file)
+                test_path = os.path.join(os.getcwd(), "tests/input_files", file)
                 if os.path.isfile(test_path):
-                    calc_inputs["plumed_inpfiles"][formatted_filename] = \
-                        SinglefileData(file=test_path)
+                    calc_inputs["plumed_inpfiles"][formatted_filename] = SinglefileData(file=test_path)
                 else:
                     sys.exit(f"Error: Input file {file} referenced in plumed file does not exist")
 
-            
             else:
                 sys.exit(f"Error: Input file {file} referenced in plumed file does not exist")
 
@@ -231,10 +229,10 @@ def add_calculation_inputs(subdirs, files):
                 # Now fill it with files referenced in the plumed inputfile.
                 # need to make sure to include any nested dirs in the path
                 calc_inputs["plumed_dirs"][frst_dir].put_object_from_file(
-                    os.path.join(os.getcwd(), subdir), 
-                    path="/".join(subdir.split("/")[1:]) # remove the first dir
-                    )
-                
+                    os.path.join(os.getcwd(), subdir),
+                    path="/".join(subdir.split("/")[1:]),  # remove the first dir
+                )
+
             # For tests
             elif "PYTEST_CURRENT_TEST" in os.environ:
                 if os.path.isfile(os.path.join(os.getcwd(), "tests", subdir)):
@@ -243,9 +241,9 @@ def add_calculation_inputs(subdirs, files):
                         calc_inputs["plumed_dirs"]["tests"] = FolderData()
                     # Now fill it with files referenced in the plumed inputfile.
                     calc_inputs["plumed_dirs"]["tests"].put_object_from_file(
-                        os.path.join(os.getcwd(), "tests", subdir), 
-                        path=subdir)
-                        
+                        os.path.join(os.getcwd(), "tests", subdir), path=subdir
+                    )
+
             else:
                 sys.exit(f"Error: subdir {subdir} referenced in plumed file does not exist")
 
@@ -281,13 +279,10 @@ def populate_plumed_files_to_inputs(inputs, plumed_filename):
     """
     # Prepare input parameters in AiiDA formats.
     # Set the plumed script as a PlumedInputData type node
-    inputs["plumed_file"] = PlumedInputData(
-        file=os.path.join(os.getcwd(), plumed_filename)
-    )
+    inputs["plumed_file"] = PlumedInputData(file=os.path.join(os.getcwd(), plumed_filename))
     # Find the inputs and outputs referenced in the plumed script
     calc_inputs, calc_outputs = inputs["plumed_file"].calculation_inputs_outputs
     # add input files and dirs referenced in plumed file into inputs
     inputs.update(calc_inputs)
     inputs.update(calc_outputs)
     return inputs
-                  

@@ -54,7 +54,5 @@ def add_subdir_to_node(dict_info, subdir):
     if subdir.split("/")[0] not in dict_info.keys():
         dict_info[subdir.split("/")[0]] = FolderData()
     # Now fill it with subdir and file.
-    dict_info[subdir.split("/")[0]].put_object_from_file(
-        os.path.join(os.getcwd(), subdir), path=subdir.split("/")[-1]
-    )
+    dict_info[subdir.split("/")[0]].put_object_from_file(os.path.join(os.getcwd(), subdir), path=subdir.split("/")[-1])
     return dict_info

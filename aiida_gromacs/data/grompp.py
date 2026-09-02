@@ -6,9 +6,8 @@ Register data types via the "aiida.data" entry point in setup.json.
 
 # You can directly use or subclass aiida.orm.data.Data
 # or any other data type listed under 'verdi data'
-from voluptuous import Optional, Required, Schema
-
 from aiida.orm import Dict
+from voluptuous import Optional, Required, Schema
 
 # A subset of grompp command line options
 cmdline_options = {
@@ -36,7 +35,7 @@ class GromppParameters(Dict):
 
     # "voluptuous" schema  to add automatic validation
     schema = Schema(cmdline_options)
-    
+
     def __init__(self, dict=None, **kwargs):
         """
         Constructor for the data class
@@ -78,13 +77,20 @@ class GromppParameters(Dict):
         parameters.extend(["-f", input_files["mdpfile"]])
         parameters.extend(["-c", input_files["grofile"]])
         parameters.extend(["-p", input_files["topfile"]])
-        if "r_file" in input_files: parameters.extend(["-r", input_files["r_file"]])
-        if "rb_file" in input_files: parameters.extend(["-rb", input_files["rb_file"]])
-        if "n_file" in input_files: parameters.extend(["-n", input_files["n_file"]])
-        if "t_file" in input_files: parameters.extend(["-t", input_files["t_file"]])
-        if "e_file" in input_files: parameters.extend(["-e", input_files["e_file"]])
-        if "qmi_file" in input_files: parameters.extend(["-qmi", input_files["qmi_file"]])
-        if "ref_file" in input_files: parameters.extend(["-ref", input_files["ref_file"]])
+        if "r_file" in input_files:
+            parameters.extend(["-r", input_files["r_file"]])
+        if "rb_file" in input_files:
+            parameters.extend(["-rb", input_files["rb_file"]])
+        if "n_file" in input_files:
+            parameters.extend(["-n", input_files["n_file"]])
+        if "t_file" in input_files:
+            parameters.extend(["-t", input_files["t_file"]])
+        if "e_file" in input_files:
+            parameters.extend(["-e", input_files["e_file"]])
+        if "qmi_file" in input_files:
+            parameters.extend(["-qmi", input_files["qmi_file"]])
+        if "ref_file" in input_files:
+            parameters.extend(["-ref", input_files["ref_file"]])
 
         parm_dict = self.get_dict()
 

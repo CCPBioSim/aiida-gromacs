@@ -3,6 +3,7 @@ Calculations provided by aiida_gromacs.
 
 This calculation configures the ability to use the 'gmx solvate' executable.
 """
+
 import os
 
 from aiida.common import CalcInfo, CodeInfo
@@ -50,7 +51,8 @@ class SolvateCalculation(CalcJob):
         spec.output('grofile', valid_type=SinglefileData, help='Output solvated gro file.')
         spec.output('topfile', valid_type=SinglefileData, help='Output topology file.')
 
-        spec.exit_code(300, 'ERROR_MISSING_OUTPUT_FILES', message='Calculation did not produce all expected output files.')
+        spec.exit_code(300, 'ERROR_MISSING_OUTPUT_FILES', message='Calculation did not produce all expected ' \
+        'output files.')
 
     def prepare_for_submission(self, folder):
         """

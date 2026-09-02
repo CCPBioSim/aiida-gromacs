@@ -1,13 +1,13 @@
 """
-Generic calculation used to track input and output files of a 
+Generic calculation used to track input and output files of a
 generic command.
 """
+
 import os
 
 from aiida.common import datastructures
 from aiida.engine import CalcJob
 from aiida.orm import List, SinglefileData, Str
-
 
 
 class GenericCalculation(CalcJob):
@@ -85,7 +85,6 @@ class GenericCalculation(CalcJob):
         spec.exit_code(301, 'ERROR_UNTRACKED_OUTPUT_FILES',
                 message='Specified output file not produced by command.')
 
-
     def prepare_for_submission(self, folder):
         """
         Create input files in the format the code external to AiiDA
@@ -106,22 +105,21 @@ class GenericCalculation(CalcJob):
         # (allows gmx genion to be run for example)
         if self.inputs.code.label == "bash":
             codeinfo.cmdline_params = ["-c", self.inputs.command.value]
-        # If an input redirection is included in the command, then remove 
+        # If an input redirection is included in the command, then remove
         # this and set the stdin_name as the filename used in the command
         if "<" in self.inputs.command.value:
             stdin_file = self.inputs.command.value.split()[-1]
             codeinfo.stdin_name = stdin_file
-            codeinfo.cmdline_params = str(self.inputs.command.value.split('<')[0]).split()
-            #codeinfo.cmdline_params = []
-                    
-        
+            codeinfo.cmdline_params = str(self.inputs.command.value.split("<")[0]).split()
+            # codeinfo.cmdline_params = []
+
         # the UUID of the AbstractCode to run
         codeinfo.code_uuid = self.inputs.code.uuid
 
         # redirect standard output to the specified output filename.
         codeinfo.stdout_name = self.metadata.options.output_filename
 
-        # create a CalcInfo object that lets AiiDA know which files to 
+        # create a CalcInfo object that lets AiiDA know which files to
         # copy back and forth.
         calcinfo = datastructures.CalcInfo()
         calcinfo.codes_info = [codeinfo]
@@ -129,10 +127,10 @@ class GenericCalculation(CalcJob):
         # get a list of input files to be copied to remote.
         copy_list = []
         if "input_files" in self.inputs:
-            for name, obj in self.inputs.input_files.items():
+            for _, obj in self.inputs.input_files.items():
                 copy_list.append((obj.uuid, obj.filename, obj.filename))
 
-        # input files are already stored in the AiiDA file repository 
+        # input files are already stored in the AiiDA file repository
         # and we can use the local_copy_list to pass them along.
         calcinfo.local_copy_list = copy_list
 

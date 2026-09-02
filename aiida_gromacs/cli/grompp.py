@@ -4,10 +4,10 @@
 Usage: gmx_grompp --help
 """
 
-import click
 import os
 
-from aiida import cmdline, engine, orm
+import click
+from aiida import cmdline, engine
 from aiida.plugins import CalculationFactory, DataFactory
 
 from aiida_gromacs import helpers
@@ -21,7 +21,7 @@ def launch(params):
     """
 
     # Prune unused CLI parameters from dict.
-    params = {k:v for k,v in params.items() if v != None}
+    params = {k: v for k, v in params.items() if v is not None}
 
     # dict to hold our calculation data.
     inputs = {
@@ -40,7 +40,7 @@ def launch(params):
     # save the full command as a string in the inputs dict
     inputs = searchprevious.save_command("gmx grompp", params, inputs)
 
-    input_file_labels = {} # dict used for finding previous nodes
+    input_file_labels = {}  # dict used for finding previous nodes
     input_file_labels[params["f"]] = "mdpfile"
     input_file_labels[params["c"]] = "grofile"
     input_file_labels[params["p"]] = "topfile"
@@ -57,36 +57,32 @@ def launch(params):
 
     # If we have itp's or FF include files then tag them.
     if itp_files is not False:
-
         inputs["itp_files"] = {}
 
         # Iterate files to assemble a dict of names and paths.
         for i, itpfile in enumerate(itp_files):
-
             # set correct itpfile path for tests
             if "PYTEST_CURRENT_TEST" in os.environ:
-                inputs["itp_files"][f"itpfile{i}"] = SinglefileData(file=os.path.join(os.getcwd(), 'tests/input_files', itpfile))
+                inputs["itp_files"][f"itpfile{i}"] = SinglefileData(
+                    file=os.path.join(os.getcwd(), "tests/input_files", itpfile)
+                )
             else:
-
                 inputs["itp_files"][f"itpfile{i}"] = SinglefileData(file=os.path.join(os.getcwd(), itpfile))
 
     # If we have included files in subdirs then process these.
     if itp_dirs is not False:
-
         inputs["itp_dirs"] = {}
 
         # for each entry establish dir path and build file tree.
         for itp_file in itp_dirs:
-
             # Create a folder that is empty.
             if itp_file.split("/")[0] not in inputs["itp_dirs"].keys():
-            
                 inputs["itp_dirs"][itp_file.split("/")[0]] = FolderData()
 
             # Now fill it with files referenced in the topology.
             inputs["itp_dirs"][itp_file.split("/")[0]].put_object_from_file(
-                os.path.join(os.getcwd(), itp_file), path=itp_file) #.split("/")[-1])
-
+                os.path.join(os.getcwd(), itp_file), path=itp_file
+            )  # .split("/")[-1])
 
     if "r" in params:
         inputs["r_file"] = SinglefileData(file=os.path.join(os.getcwd(), params.pop("r")))
@@ -96,7 +92,7 @@ def launch(params):
 
     if "n" in params:
         inputs["n_file"] = SinglefileData(file=os.path.join(os.getcwd(), params.pop("n")))
-  
+
     if "t" in params:
         inputs["t_file"] = SinglefileData(file=os.path.join(os.getcwd(), params.pop("t")))
 
@@ -118,15 +114,20 @@ def launch(params):
     # check if a pytest test is running, if so run rather than submit aiida job
     # Note: in order to submit your calculation to the aiida daemon, do:
     if "PYTEST_CURRENT_TEST" in os.environ:
-        future = engine.run(CalculationFactory("gromacs.grompp"), **inputs)
+        engine.run(CalculationFactory("gromacs.grompp"), **inputs)
     else:
-        future = engine.submit(CalculationFactory("gromacs.grompp"), **inputs)
+        engine.submit(CalculationFactory("gromacs.grompp"), **inputs)
 
 
 @click.command()
 @cmdline.utils.decorators.with_dbenv()
 @cmdline.params.options.CODE()
-@click.option("--description", default="record grompp data provenance via the aiida_gromacs plugin", type=str, help="Short metadata description")
+@click.option(
+    "--description",
+    default="record grompp data provenance via the aiida_gromacs plugin",
+    type=str,
+    help="Short metadata description",
+)
 # Input file options
 @click.option("-f", default="grompp.mdp", type=str, help="Input parameter file")
 @click.option("-c", required=True, type=str, help="Input structure file")
@@ -147,8 +148,16 @@ def launch(params):
 @click.option("-v", type=str, help="Be loud and noisy")
 @click.option("-time", type=str, help="Take frame at or first after this time.")
 @click.option("-rmvsbds", type=str, help="Remove constant bonded interactions with virtual sites")
-@click.option("-maxwarn", type=str, help="Number of allowed warnings during input processing. Not for normal use and may generate unstable systems")
-@click.option("-zero", type=str, help="Set parameters for bonded interactions without defaults to zero instead of generating an error")
+@click.option(
+    "-maxwarn",
+    type=str,
+    help="Number of allowed warnings during input processing. Not for normal use and may generate unstable systems",
+)
+@click.option(
+    "-zero",
+    type=str,
+    help="Set parameters for bonded interactions without defaults to zero instead of generating an error",
+)
 @click.option("-renum", type=str, help="Renumber atomtypes and minimize number of atomtypes")
 def cli(*args, **kwargs):
     """Run example.

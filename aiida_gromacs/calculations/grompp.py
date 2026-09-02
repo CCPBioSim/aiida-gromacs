@@ -3,11 +3,12 @@ Calculations provided by aiida_gromacs.
 
 This calculation configures the ability to use the 'gmx grompp' executable.
 """
+
 import os
 
 from aiida.common import CalcInfo, CodeInfo
 from aiida.engine import CalcJob
-from aiida.orm import SinglefileData, FolderData, Str
+from aiida.orm import FolderData, SinglefileData, Str
 from aiida.plugins import DataFactory
 
 GromppParameters = DataFactory("gromacs.grompp")
@@ -50,8 +51,10 @@ class GromppCalculation(CalcJob):
                 help='Directory where output files will be saved when parsed.')
 
         # Optional inputs.
-        spec.input_namespace('itp_files', valid_type=SinglefileData, required=False, dynamic=True, help='Restraint files')
-        spec.input_namespace('itp_dirs', valid_type=FolderData, required=False, dynamic=True, help='Forcefield descriptions')
+        spec.input_namespace('itp_files', valid_type=SinglefileData, required=False, dynamic=True, 
+                             help='Restraint files')
+        spec.input_namespace('itp_dirs', valid_type=FolderData, required=False, dynamic=True, 
+                             help='Forcefield descriptions')
 
         spec.input('r_file', valid_type=SinglefileData, required=False, help='Structure file')
         spec.input('rb_file', valid_type=SinglefileData, required=False, help='Structure file')
@@ -70,7 +73,8 @@ class GromppCalculation(CalcJob):
         spec.output('pp_file', required=False, valid_type=SinglefileData, help='Topology file')
         spec.output('imd_file', required=False, valid_type=SinglefileData, help='Coordinate file in Gromos-87 format')
 
-        spec.exit_code(300, 'ERROR_MISSING_OUTPUT_FILES', message='Calculation did not produce all expected output files.')
+        spec.exit_code(300, 'ERROR_MISSING_OUTPUT_FILES', message='Calculation did not produce all expected ' \
+        'output files.')
 
     def prepare_for_submission(self, folder):
         """
@@ -83,8 +87,21 @@ class GromppCalculation(CalcJob):
         codeinfo = CodeInfo()
 
         # Setup data structures for files.
-        input_options = ["mdpfile", "grofile", "topfile", "itp_files", "itp_dirs", "r_file", "rb_file", "n_file", "t_file", "e_file", "qmi_file", "ref_file"]
-        output_options = ["o", "po", "pp", "imd"] 
+        input_options = [
+            "mdpfile",
+            "grofile",
+            "topfile",
+            "itp_files",
+            "itp_dirs",
+            "r_file",
+            "rb_file",
+            "n_file",
+            "t_file",
+            "e_file",
+            "qmi_file",
+            "ref_file",
+        ]
+        output_options = ["o", "po", "pp", "imd"]
         cmdline_input_files = {}
         input_files = []
         output_files = []
@@ -95,25 +112,31 @@ class GromppCalculation(CalcJob):
                 # If we have a dynamics data type then iterate the dict.
                 if item == "itp_files":
                     for _, obj in self.inputs[item].items():
-                        input_files.append((
-                            obj.uuid,
-                            obj.filename,
-                            obj.filename,
-                        ))
+                        input_files.append(
+                            (
+                                obj.uuid,
+                                obj.filename,
+                                obj.filename,
+                            )
+                        )
                 elif item == "itp_dirs":
                     for directory, obj in self.inputs[item].items():
-                        input_files.append((
-                            obj.uuid,
-                            '.',
-                            directory,
-                        ))        
+                        input_files.append(
+                            (
+                                obj.uuid,
+                                ".",
+                                directory,
+                            )
+                        )
                 else:
                     cmdline_input_files[item] = self.inputs[item].filename
-                    input_files.append((
-                        self.inputs[item].uuid,
-                        self.inputs[item].filename,
-                        self.inputs[item].filename,
-                    ))
+                    input_files.append(
+                        (
+                            self.inputs[item].uuid,
+                            self.inputs[item].filename,
+                            self.inputs[item].filename,
+                        )
+                    )
 
         # Add output files to retrieve list.
         output_files.append(self.metadata.options.output_filename)

@@ -6,9 +6,8 @@ Register data types via the "aiida.data" entry point in setup.json.
 
 # You can directly use or subclass aiida.orm.data.Data
 # or any other data type listed under 'verdi data'
-from voluptuous import Optional, Required, Schema
-
 from aiida.orm import Dict
+from voluptuous import Optional, Required, Schema
 
 # A subset of pdb2gmx command line options
 cmdline_options = {
@@ -25,14 +24,14 @@ cmdline_options = {
     Optional("ss"): str,
     Optional("ter"): str,
     Optional("lys"): str,
-    Optional("arg"): str, 
+    Optional("arg"): str,
     Optional("asp"): str,
     Optional("glu"): str,
     Optional("gln"): str,
     Optional("his"): str,
     Optional("angle"): str,
-    Optional("dist"): str, 
-    Optional("una"): str, 
+    Optional("dist"): str,
+    Optional("una"): str,
     Optional("ignh"): str,
     Optional("missing"): str,
     Optional("v"): str,
@@ -57,7 +56,7 @@ class Pdb2gmxParameters(Dict):
 
     # "voluptuous" schema  to add automatic validation
     schema = Schema(cmdline_options)
-    
+
     def __init__(self, dict=None, **kwargs):
         """
         Constructor for the data class

@@ -1,16 +1,16 @@
 #!/usr/bin/env python
 """Launch a calculation using the 'genericMD'
 
-This script allows the user to submit via AiiDA any command of a code that 
+This script allows the user to submit via AiiDA any command of a code that
 is set up in AiiDA
 
 """
 
 import os
 from pathlib import Path
-import click
 
-from aiida import cmdline, engine, orm, load_profile
+import click
+from aiida import cmdline, engine, load_profile, orm
 from aiida.common import exceptions
 from aiida.plugins import CalculationFactory
 
@@ -19,7 +19,7 @@ from aiida_gromacs.utils import searchprevious
 
 # set base path for input files.
 INPUT_DIR = os.getcwd()
-profile = load_profile() # need to load profile first
+profile = load_profile()  # need to load profile first
 computer = helpers.get_computer()
 
 
@@ -58,9 +58,8 @@ def launch_genericMD(options):
     input_files = {}
     for filename in list(inputs):
         file_path = os.path.join(INPUT_DIR, filename)
-        stripped_input = searchprevious.strip_path(filename) #.split("/")[-1]
-        input_files[searchprevious.format_link_label(stripped_input)] = \
-            orm.SinglefileData(file=file_path)
+        stripped_input = searchprevious.strip_path(filename)  # .split("/")[-1]
+        input_files[searchprevious.format_link_label(stripped_input)] = orm.SinglefileData(file=file_path)
 
     # Keep the output filenames as a list.
     output_files = list(outputs)
@@ -85,21 +84,17 @@ def launch_genericMD(options):
     # check if previous processes have run and add previous outputs
     # as inputs for new process if file names match
     if qb.count() > 0:
-        process_inputs = searchprevious.append_prev_nodes(qb, inputs, 
-                        process_inputs, INPUT_DIR)
+        process_inputs = searchprevious.append_prev_nodes(qb, inputs, process_inputs, INPUT_DIR)
 
     # check if a pytest test is running, if so run rather than submit aiida job
     # Submit your calculation to the aiida daemon
     if "PYTEST_CURRENT_TEST" in os.environ:
-        future = engine.run(CalculationFactory("gromacs.genericMD"), 
-                               **process_inputs)
+        future = engine.run(CalculationFactory("gromacs.genericMD"), **process_inputs)
     else:
-        if submit: # submit to deamon and release interpretor
-            future = engine.submit(CalculationFactory("gromacs.genericMD"), 
-                                **process_inputs)
-        else: # blocking mode
-            future = engine.run(CalculationFactory("gromacs.genericMD"), 
-                                **process_inputs)
+        if submit:  # submit to deamon and release interpretor
+            future = engine.submit(CalculationFactory("gromacs.genericMD"), **process_inputs)
+        else:  # blocking mode
+            future = engine.run(CalculationFactory("gromacs.genericMD"), **process_inputs)
 
     # future = engine.submit(process)
     print(f"Submitted calculation: {future}\n")
@@ -122,13 +117,9 @@ def launch_genericMD(options):
     "--inputs",
     type=str,
     multiple=True,
-    help="Input file name used in the command. "
-    "Include the local path to these files.",
+    help="Input file name used in the command. Include the local path to these files.",
 )
-@click.option(
-    "--outputs", multiple=True, type=str, 
-    help="Output file name used in the command."
-)
+@click.option("--outputs", multiple=True, type=str, help="Output file name used in the command.")
 @click.option(
     "--output_dir",
     default=os.path.join(os.getcwd()),
@@ -136,11 +127,8 @@ def launch_genericMD(options):
     help="Absolute path of directory where files are saved.",
 )
 @click.option(
-    "--submit", 
-    is_flag=True, 
-    show_default=True, 
-    default=False, 
-    help="Submit to daemon rather than blocking mode.")
+    "--submit", is_flag=True, show_default=True, default=False, help="Submit to daemon rather than blocking mode."
+)
 def cli(**kwargs):
     """Run genericMD for use with generic commands outside of gromacs
 

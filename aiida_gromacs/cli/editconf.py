@@ -7,8 +7,7 @@ Usage: gmx_editconf --help
 import os
 
 import click
-
-from aiida import cmdline, engine, orm
+from aiida import cmdline, engine
 from aiida.plugins import CalculationFactory, DataFactory
 
 from aiida_gromacs import helpers
@@ -22,7 +21,7 @@ def launch(params):
     """
 
     # Prune unused CLI parameters from dict.
-    params = {k:v for k,v in params.items() if v != None}
+    params = {k: v for k, v in params.items() if v is not None}
 
     # dict to hold our calculation data.
     inputs = {
@@ -41,7 +40,7 @@ def launch(params):
     # save the full command as a string in the inputs dict
     inputs = searchprevious.save_command("gmx editconf", params, inputs)
 
-    input_file_labels = {} # dict used for finding previous nodes
+    input_file_labels = {}  # dict used for finding previous nodes
     input_file_labels[params["f"]] = "grofile"
 
     # Prepare input parameters in AiiDA formats.
@@ -63,16 +62,21 @@ def launch(params):
     # check if a pytest test is running, if so run rather than submit aiida job
     # Note: in order to submit your calculation to the aiida daemon, do:
     if "PYTEST_CURRENT_TEST" in os.environ:
-        future = engine.run(CalculationFactory("gromacs.editconf"), **inputs)
+        engine.run(CalculationFactory("gromacs.editconf"), **inputs)
     else:
-        future = engine.submit(CalculationFactory("gromacs.editconf"), **inputs)
+        engine.submit(CalculationFactory("gromacs.editconf"), **inputs)
 
 
 @click.command()
 @cmdline.utils.decorators.with_dbenv()
 @cmdline.params.options.CODE()
 # Plugin options
-@click.option("--description", default="record editconf data provenance via the aiida_gromacs plugin", type=str, help="Short metadata description")
+@click.option(
+    "--description",
+    default="record editconf data provenance via the aiida_gromacs plugin",
+    type=str,
+    help="Short metadata description",
+)
 # Input file options
 @click.option("-f", default="conf.gro", type=str, help="Input structure file")
 @click.option("-n", type=str, help="Index file")
@@ -98,14 +102,32 @@ def launch(params):
 @click.option("-density", type=str, help="Density (g/L) of the output box achieved by scaling")
 @click.option("-pbc", type=str, help="Remove the periodicity (make molecule whole again)")
 @click.option("-resnr", type=str, help="Renumber residues starting from resnr")
-@click.option("-grasp", type=str, help="Store the charge of the atom in the B-factor field and the radius of the atom in the occupancy field")
-@click.option("-rvdw", type=str, help="Default Van der Waals radius (in nm) if one can not be found in the database or if no parameters are present in the topology file")
+@click.option(
+    "-grasp",
+    type=str,
+    help="Store the charge of the atom in the B-factor field and the radius of the atom in the occupancy field",
+)
+@click.option(
+    "-rvdw",
+    type=str,
+    help="Default Van der Waals radius (in nm) if one can not be found in the database or if no parameters are "
+    "present in the topology file",
+)
 @click.option("-sig56", type=str, help="Use rmin/2 (minimum in the Van der Waals potential) rather than sigma/2")
-@click.option("-vdwread", type=str, help="Read the Van der Waals radii from the file vdwradii.dat rather than computing the radii based on the force field")
+@click.option(
+    "-vdwread",
+    type=str,
+    help="Read the Van der Waals radii from the file vdwradii.dat rather than computing the radii based on the "
+    "force field",
+)
 @click.option("-atom", type=str, help="Force B-factor attachment per atom")
 @click.option("-legend", type=str, help="Make B-factor legend")
 @click.option("-label", type=str, help="Add chain label for all residues")
-@click.option("-conect", type=str, help="Add CONECT records to a .pdb file when written. Can only be done when a topology is present")
+@click.option(
+    "-conect",
+    type=str,
+    help="Add CONECT records to a .pdb file when written. Can only be done when a topology is present",
+)
 def cli(*args, **kwargs):
     """Run example.
 

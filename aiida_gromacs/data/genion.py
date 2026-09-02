@@ -6,9 +6,8 @@ Register data types via the "aiida.data" entry point in setup.json.
 
 # You can directly use or subclass aiida.orm.data.Data
 # or any other data type listed under 'verdi data'
-from voluptuous import Optional, Required, Schema
-
 from aiida.orm import Dict
+from voluptuous import Optional, Required, Schema
 
 # A subset of genion command line options
 cmdline_options = {
@@ -36,7 +35,7 @@ class GenionParameters(Dict):
 
     # "voluptuous" schema  to add automatic validation
     schema = Schema(cmdline_options)
-    
+
     def __init__(self, dict=None, **kwargs):
         """
         Constructor for the data class
@@ -77,7 +76,8 @@ class GenionParameters(Dict):
             parameters.append("genion")
             parameters.extend(["-s", input_files["tprfile"]])
             parameters.extend(["-p", input_files["topfile"]])
-            if "n_file" in input_files: parameters.extend(["-n", input_files["n_file"]])
+            if "n_file" in input_files:
+                parameters.extend(["-n", input_files["n_file"]])
 
             parm_dict = self.get_dict()
 
@@ -91,7 +91,8 @@ class GenionParameters(Dict):
             cmdline = cmdline + " " + "| gmx genion"
             cmdline = cmdline + " " + " -s " + input_files["tprfile"]
             cmdline = cmdline + " " + " -p " + input_files["topfile"]
-            if "n_file" in input_files: cmdline = cmdline + " " + " -n " + input_files["n_file"]
+            if "n_file" in input_files:
+                cmdline = cmdline + " " + " -n " + input_files["n_file"]
 
             parm_dict = self.get_dict()
 

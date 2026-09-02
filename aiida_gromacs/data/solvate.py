@@ -6,9 +6,8 @@ Register data types via the "aiida.data" entry point in setup.json.
 
 # You can directly use or subclass aiida.orm.data.Data
 # or any other data type listed under 'verdi data'
-from voluptuous import Optional, Required, Schema
-
 from aiida.orm import Dict
+from voluptuous import Optional, Required, Schema
 
 # A subset of solvate command line options
 cmdline_options = {
@@ -33,7 +32,7 @@ class SolvateParameters(Dict):
 
     # "voluptuous" schema  to add automatic validation
     schema = Schema(cmdline_options)
-    
+
     def __init__(self, dict=None, **kwargs):
         """
         Constructor for the data class

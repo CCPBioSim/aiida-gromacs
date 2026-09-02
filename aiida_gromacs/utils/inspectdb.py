@@ -3,18 +3,15 @@
 Sandbox for inspecting AiiDA databases.
 """
 
-import sys
-import aiida
 from aiida import manage, orm, profile_context
-from aiida.orm import load_node, List, Str
+from aiida.orm import List, Str
 from aiida.storage.sqlite_zip.backend import SqliteZipBackend
-import json
 from aiida.tools.visualization import Graph
 
-#print(help(aiida.storage.sqlite_zip))
-#sys.exit()
+# print(help(aiida.storage.sqlite_zip))
+# sys.exit()
 #  create a profile instance from the archive path
-archive_profile = SqliteZipBackend.create_profile('archive.aiida')
+archive_profile = SqliteZipBackend.create_profile("archive.aiida")
 # print(archive_profile)
 
 # can load our archive as a profile
@@ -29,11 +26,11 @@ with profile_context(archive_profile):
     # print(storage)
     # print(json.dumps(storage.get_info(), indent=2))
 
-# once the context manager is exited, the storage is closed, 
+# once the context manager is exited, the storage is closed,
 # and will except on further calls
 # print(storage)
 
-# As per a standard profile, we can now use the QueryBuilder, 
+# As per a standard profile, we can now use the QueryBuilder,
 # to find and query for data
 with profile_context(archive_profile):
     process = orm.QueryBuilder().append(orm.ProcessNode).first(flat=True)
@@ -47,7 +44,7 @@ with profile_context(archive_profile):
         graph.add_incoming(process, annotate_links="both")
         graph.add_outgoing(process, annotate_links="both")
         # node = load_node(process.uuid)
-        #filename = node.filename
+        # filename = node.filename
         # print(node)
         print("Attributes:")
         for key, value in process.attributes.items():

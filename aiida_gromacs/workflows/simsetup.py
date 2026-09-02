@@ -3,6 +3,7 @@ aiida_gromacs
 
 A workflow for setting up basic molecular dynamics simulations.
 """
+
 from aiida.engine import ToContext, WorkChain
 from aiida.orm import Code, SinglefileData
 from aiida.plugins.factories import CalculationFactory, DataFactory
@@ -34,12 +35,8 @@ class SetupWorkChain(WorkChain):
         spec.input("local_code", valid_type=Code)
         spec.input("remote_code", required=False, valid_type=Code)
         spec.input("pdbfile", valid_type=SinglefileData, help="Input structure.")
-        spec.input(
-            "ionsmdp", valid_type=SinglefileData, help="MD parameters for adding ions."
-        )
-        spec.input(
-            "minmdp", valid_type=SinglefileData, help="MD parameters for minimisation."
-        )
+        spec.input("ionsmdp", valid_type=SinglefileData, help="MD parameters for adding ions.")
+        spec.input("minmdp", valid_type=SinglefileData, help="MD parameters for minimisation.")
         spec.input(
             "nvtmdp",
             valid_type=SinglefileData,

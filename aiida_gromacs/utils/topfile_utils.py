@@ -5,8 +5,8 @@ import re
 
 
 def itp_finder(mdpfile, topfile):
-    """ Extract included files from the topology file.
-    
+    """Extract included files from the topology file.
+
     This method will grab a list of all includes and then try to sort them
     based on if they are in C directive tags and if flags in the MDP affect
     them.
@@ -20,24 +20,23 @@ def itp_finder(mdpfile, topfile):
     found_include = re.findall(r'#include "([\S\s]*?)"', top, re.DOTALL)
 
     # find ifdef and define statements in top
-    found_ifdef = re.findall(r'#ifdef ([\S\s]*?)\n', top, re.DOTALL)
-    defines = re.findall(r'#define ([\S\s]*?)\n', top, re.DOTALL)
+    found_ifdef = re.findall(r"#ifdef ([\S\s]*?)\n", top, re.DOTALL)
+    defines = re.findall(r"#define ([\S\s]*?)\n", top, re.DOTALL)
 
     # find defines in mdp file.
-    found_def = re.search(r'define([\S\s]*?)\n', mdp, re.DOTALL)
-    if (found_def is not None): 
-        found_def = re.findall(r'-D([\S\s]*?) ', found_def.group(), re.DOTALL)
+    found_def = re.search(r"define([\S\s]*?)\n", mdp, re.DOTALL)
+    if found_def is not None:
+        found_def = re.findall(r"-D([\S\s]*?) ", found_def.group(), re.DOTALL)
         defines.extend(found_def)
 
     # find ifndef and undefine statements in top
-    found_ifndef = re.findall(r'#ifndef ([\S\s]*?)\n', top, re.DOTALL)
-    undefines = re.findall(r'#undef ([\S\s]*?)\n', top, re.DOTALL)
+    found_ifndef = re.findall(r"#ifndef ([\S\s]*?)\n", top, re.DOTALL)
+    undefines = re.findall(r"#undef ([\S\s]*?)\n", top, re.DOTALL)
 
-    # Extract includes between ifdefs and tag them against vars. 
+    # Extract includes between ifdefs and tag them against vars.
     for item in found_ifdef:
-
         # Find the directive
-        ifdef_tag = re.search(f'#ifdef {item}([\S\s]*?)#endif', top, re.DOTALL)
+        ifdef_tag = re.search(f"#ifdef {item}([\S\s]*?)#endif", top, re.DOTALL)
 
         # Find the includes
         if (ifdef_tag is not None) and ((item not in defines) or (item in undefines)):
@@ -46,9 +45,8 @@ def itp_finder(mdpfile, topfile):
 
     # Extract includes between ifndefs and tag them against vars.
     for item in found_ifndef:
-
         # Find the directive
-        ifndef_tag = re.search(f'#ifndef {item}([\S\s]*?)#endif', top, re.DOTALL)
+        ifndef_tag = re.search(f"#ifndef {item}([\S\s]*?)#endif", top, re.DOTALL)
 
         # Find the includes
         if (ifndef_tag is not None) and ((item in defines) and (item not in undefines)):
@@ -56,7 +54,6 @@ def itp_finder(mdpfile, topfile):
             found_include = list(set(found_include) - set(ifndef_includes))
 
     if found_include:
-
         # First check blacklisted files.
         files = gmx_blacklist(found_include)
 
@@ -75,10 +72,8 @@ def filepath_check(files):
 
     # Iterate all found files and check if they are in subdirs.
     for item in files:
-
         # paths containing dirs will have slashes in them.
         if "/" in item:
-
             subdirs.append(item)
 
     # Remove the ones containing dirs from the original list of files
@@ -105,11 +100,11 @@ def gmx_blacklist(includes):
         "charmm27.ff",
         "amber99sb-ildn.ff",
         "gromos53a6.ff",
-        "gromos45a3.ff"
+        "gromos45a3.ff",
     ]
 
     # Remove banned directory substrings
     for banned_ipt in blacklist:
-        includes = [ x for x in includes if banned_ipt not in x ]
+        includes = [x for x in includes if banned_ipt not in x]
 
     return includes

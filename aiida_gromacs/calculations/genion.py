@@ -3,6 +3,7 @@ Calculations provided by aiida_gromacs.
 
 This calculation configures the ability to use the 'gmx genion' executable.
 """
+
 import os
 
 from aiida.common import CalcInfo, CodeInfo
@@ -55,8 +56,10 @@ class GenionCalculation(CalcJob):
             required=False,
             help='Filename that should be redirected to the shell command using the stdin file descriptor.',
         )
-        spec.input('instructions_file', valid_type=SinglefileData, required=False, help='Instructions for generating index file')
-        spec.input('metadata.options.stdin_filename', valid_type=str, required=False, help='name of file used in stdin.')
+        spec.input('instructions_file', valid_type=SinglefileData, required=False, help='Instructions for generating ' \
+        'index file')
+        spec.input('metadata.options.stdin_filename', valid_type=str, required=False, help='name of file used in ' \
+        'stdin.')
         spec.input('n_file', required=False, valid_type=SinglefileData, help='Index file.')
 
         # Default outputs.
@@ -64,7 +67,8 @@ class GenionCalculation(CalcJob):
         spec.output('grofile', valid_type=SinglefileData, help='Output gro file with ions added.')
         spec.output('topfile', valid_type=SinglefileData, help='Output topology with ions added.')
 
-        spec.exit_code(300, 'ERROR_MISSING_OUTPUT_FILES', message='Calculation did not produce all expected output files.')
+        spec.exit_code(300, 'ERROR_MISSING_OUTPUT_FILES', message='Calculation did not produce all expected output ' \
+        'files.')
 
     def prepare_for_submission(self, folder):
         """
@@ -85,18 +89,20 @@ class GenionCalculation(CalcJob):
         for item in input_options:
             if item in self.inputs:
                 cmdline_input_files[item] = self.inputs[item].filename
-                input_files.append((
+                input_files.append(
+                    (
                         self.inputs[item].uuid,
                         self.inputs[item].filename,
                         self.inputs[item].filename,
-                    ))
+                    )
+                )
 
         # Form the commandline.
         codeinfo.cmdline_params = self.inputs.parameters.cmdline_params(cmdline_input_files)
 
         # Form stdin file for index instructions
-        codeinfo.stdin_name = self.inputs['metadata']['options'].get('stdin_filename', None)
-        
+        codeinfo.stdin_name = self.inputs["metadata"]["options"].get("stdin_filename", None)
+
         codeinfo.code_uuid = self.inputs.code.uuid
         codeinfo.stdout_name = self.metadata.options.output_filename
         codeinfo.withmpi = self.inputs.metadata.options.withmpi
