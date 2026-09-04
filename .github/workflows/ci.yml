@@ -27,10 +27,10 @@ jobs:
         shell: bash -el {0}
     steps:
     - name: checkout
-      uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
 
     - name: Setup Miniconda
-      uses: conda-incubator/setup-miniconda@v4.0.1
+      uses: conda-incubator/setup-miniconda@8ee1f361103df19b6f8c8655fd3967a8ecb162d5 # v4.0.1
       with:
         activate-environment: "testing"
         python-version: ${{ matrix.python }}
@@ -52,7 +52,7 @@ jobs:
         pytest -s --cov aiida_gromacs --cov-report term-missing --cov-report "xml:${GITHUB_WORKSPACE}/coverage.xml" --cov-append .
 
     - name: Report Coverage
-      uses: coverallsapp/github-action@5cbfd81b66ca5d10c19b062c04de0199c215fb6e # v2.3.7
+      uses: coverallsapp/github-action@8d6379e14d29928660c4ba802d8e85393440b329 # v2.3.8
       with:
           file: ${{ github.workspace }}/coverage.xml
           format: cobertura
@@ -65,7 +65,7 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
     - name: Coveralls Finished
-      uses: coverallsapp/github-action@5cbfd81b66ca5d10c19b062c04de0199c215fb6e # v2.3.7
+      uses: coverallsapp/github-action@8d6379e14d29928660c4ba802d8e85393440b329 # v2.3.8
       with:
         parallel-finished: true
 
@@ -73,12 +73,12 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
-    - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+    - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
 
     - name: Set up Python 3.13
-      uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
+      uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
       with:
-        python-version: 3.13
+        python-version: 3.14
 
     - name: Install python dependencies
       run: |
@@ -92,12 +92,12 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
-    - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+    - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
 
     - name: Set up Python 3.13
-      uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
+      uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
       with:
-        python-version: 3.13
+        python-version: 3.14
 
     - name: Install python dependencies
       run: |
