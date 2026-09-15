@@ -49,7 +49,7 @@ To install using Conda:
 .. code-block:: bash
 
     conda activate aiida-2.9.1
-    conda install -c CCPBioSim aiida-gromacs
+    conda install -c ccpbiosim aiida-gromacs
 
 GROMACS Installation
 --------------------
