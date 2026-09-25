@@ -27,7 +27,8 @@ keywords = ["aiida", "plugin", "gromacs", "aiida-gromacs"]
 requires-python = ">=3.11"
 dependencies = [
     "aiida-core>=2.9.0,<2.10",
-    "voluptuous==0.16.0"
+    "voluptuous>=0.16.0,<1.0",
+    "biosim-extractor>=1.0.0,<2.0",
 ]
 
 [project.urls]
