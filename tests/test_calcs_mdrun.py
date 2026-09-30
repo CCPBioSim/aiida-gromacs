@@ -57,7 +57,7 @@ def test_process(gromacs_code):
     assert "grofile" in result
     assert "logfile" in result
     assert "enfile" in result
-    assert "logfile_metadata" in result
+    assert "simulation_metadata" in result
 
 
 def test_file_name_match(gromacs_code):
@@ -70,7 +70,7 @@ def test_file_name_match(gromacs_code):
     assert result["grofile"].base.repository.list_object_names()[0] == "mdrun_1AKI_minimised.gro"
     assert result["logfile"].base.repository.list_object_names()[0] == "mdrun_1AKI_minimised.log"
     assert result["enfile"].base.repository.list_object_names()[0] == "mdrun_1AKI_minimised.edr"
-    assert isinstance(result["logfile_metadata"], Dict)
+    assert isinstance(result["simulation_metadata"], Dict)
 
 
 def run_mdrun_plumed(gromacs_code):
@@ -122,7 +122,7 @@ def test_process_plumed(gromacs_code):
     assert "grofile" in result
     assert "logfile" in result
     assert "enfile" in result
-    assert "logfile_metadata" in result
+    assert "simulation_metadata" in result
     assert "plumed_HILLS" in result
     assert "plumed_COLVAR" in result
 
@@ -137,6 +137,6 @@ def test_file_name_match_plumed(gromacs_code):
     assert result["grofile"].base.repository.list_object_names()[0] == "plumed_mdrun_prod.gro"
     assert result["logfile"].base.repository.list_object_names()[0] == "plumed_mdrun_prod.log"
     assert result["enfile"].base.repository.list_object_names()[0] == "plumed_mdrun_prod.edr"
-    assert isinstance(result["logfile_metadata"], Dict)
+    assert isinstance(result["simulation_metadata"], Dict)
     assert result["plumed_HILLS"].base.repository.list_object_names()[0] == "HILLS"
     assert result["plumed_COLVAR"].base.repository.list_object_names()[0] == "COLVAR"
