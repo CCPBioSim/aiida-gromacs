@@ -229,7 +229,7 @@ jobs:
             -c CCPBioSim \
             -c conda-forge \
             --override-channel
-            
+
           test -f "$PKG_PATH"
           echo "Built: $PKG_PATH"
 
