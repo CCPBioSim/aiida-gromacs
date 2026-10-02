@@ -198,7 +198,7 @@ jobs:
           sed -i "s/^{% set version = \".*\" %}$/{% set version = \"${{ github.event.inputs.version }}\" %}/" conda-recipe/meta.yaml
           grep '{% set version' conda-recipe/meta.yaml
 
-      - name: Setup Conda (conda-forge only)
+      - name: Setup Conda (conda-forge and ccpbiosim)
         uses: conda-incubator/setup-miniconda@be893c923ea9cf1cf7cd510fbdde27c7e18cbdcb # v4.1.0
         with:
           miniforge-variant: Miniforge3
@@ -206,7 +206,7 @@ jobs:
           auto-activate: true
           activate-environment: base
           conda-remove-defaults: true
-          channels: conda-forge
+          channels: ccpbiosim,conda-forge
           channel-priority: strict
 
       - name: Install build tools
@@ -224,7 +224,12 @@ jobs:
         run: |
           PKG_PATH=$(conda build conda-recipe --output)
           echo "PKG_PATH=$PKG_PATH" >> "$GITHUB_ENV"
-          conda build conda-recipe
+
+          conda build conda-recipe \
+            -c CCPBioSim \
+            -c conda-forge \
+            --override-channel
+            
           test -f "$PKG_PATH"
           echo "Built: $PKG_PATH"
 
