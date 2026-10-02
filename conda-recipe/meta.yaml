@@ -25,13 +25,14 @@ outputs:
         - createarchive=aiida_gromacs.cli.createarchive:cli
     requirements:
       host:
-        - python
+        - python >=3.12
         - pip
         - flit-core >=4,<5
       run:
-        - python
-        - aiida-core >=2.6.1,<=2.6.3
-        - voluptuous
+        - python >=3.12
+        - aiida-core >=2.9.0,<2.10
+        - voluptuous >=0.16.0,<1.0
+        - biosim-extractor >=1.0.0,<2.0
     about:
       home: https://github.com/CCPBioSim/aiida-gromacs
       license: MIT
