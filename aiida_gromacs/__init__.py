@@ -4,4 +4,4 @@ aiida_gromacs
 A plugin for using GROMACS with AiiDA for molecular dymanics simulations.
 """
 
-__version__ = "2.2.2"
+__version__ = "2.3.0"
