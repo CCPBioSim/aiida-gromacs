@@ -24,7 +24,7 @@ def show_provenance_text():
         # print(entry.label)
         command = ""
         executable = ""
-        for link_triple in entry.get_incoming().all():
+        for link_triple in entry.base.links.get_incoming().all():
             # print("A", link_triple.node)
             # print("B", link_triple.link_type)
             # print("C", link_triple.link_label)
@@ -32,8 +32,8 @@ def show_provenance_text():
             if link_triple.link_label == "command":
                 command = link_triple.node.value
 
-        incoming = entry.get_incoming().all_nodes()
-        outgoing = entry.get_outgoing().all_nodes()
+        incoming = entry.base.links.get_incoming().all_nodes()
+        outgoing = entry.base.links.get_outgoing().all_nodes()
         input_files = []
         output_files = []
         for inputs in incoming:
