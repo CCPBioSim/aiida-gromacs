@@ -56,7 +56,13 @@ That is it, you now have fully disabled the AiiDA toolchain.
 Switching AiiDA Database Profile
 --------------------------------
 
-If you are working on multiple projects, you can create a :ref:`new profile <create-profile-label>` as before and view all created profiles:
+If you are working on multiple projects, you can create another profile with:
+
+.. code-block:: bash
+
+    verdi presto --use-zeromq
+
+And view all created profiles:
 
 .. code-block:: bash
 
