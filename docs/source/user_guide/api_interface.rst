@@ -45,7 +45,7 @@ Input files for each calculation are required to be marked as the AiiDA Singlefi
         # Now you can start mapping files.
         somefile = SinglefileData(file=os.path.join(os.getcwd(), 'some.file'))
 
-**CLI Parameters and Outputs**
+**API Parameters and Outputs**
 
 Flags for parameters setting properties or naming output files should be provided using the relevant Parameters data structures from the AiiDA DataFactory. An example of doing this is:
 

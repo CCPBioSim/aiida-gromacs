@@ -48,7 +48,7 @@ If any changes to the plugin code are made, after an update for example, restart
 
 .. code-block:: bash
 
-    verdi daemon restart --reset
+    verdi daemon restart
 
 To view details of a submitted process, such as the inputs, state, log messages, etc., use the following command:
 
@@ -107,7 +107,7 @@ Show a list of the commands run and the connected inputs/outputs associated with
 
 .. code-block:: bash
 
-    verdi data provenance show
+    verdi data gromacs.provenance show
 
 An example output on the command line will look like this:
 

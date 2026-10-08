@@ -1,7 +1,5 @@
 #!/bin/bash
 
-cd gromacs
-
 gmx_grompp -f MDstep_1.0_minimization.mdp -c solvated_ions.gro -r solvated_ions.gro -p system.top -o MDstep_1.0_minimization.tpr -n index.ndx -maxwarn 1
 gmx_mdrun -s MDstep_1.0_minimization.tpr -c MDstep_1.0_minimization.gro -e MDstep_1.0_minimization.edr -g MDstep_1.0_minimization.log -o MDstep_1.0_minimization.trr
 

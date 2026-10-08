@@ -120,12 +120,12 @@ class GromppCalculation(CalcJob):
                             )
                         )
                 elif item == "itp_dirs":
-                    for directory, obj in self.inputs[item].items():
+                    for _, obj in self.inputs[item].items():
                         input_files.append(
                             (
                                 obj.uuid,
                                 ".",
-                                directory,
+                                ".",
                             )
                         )
                 else:
