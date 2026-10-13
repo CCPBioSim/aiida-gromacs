@@ -45,7 +45,7 @@ testing = [
 ]
 pre-commit = [
     "pre-commit>=4.6,<5.0",
-    "ruff>=0.16,<0.17",
+    "ruff>=0.17,<0.18",
     "rstcheck>=6.3,<7.0"
 ]
 docs = [
