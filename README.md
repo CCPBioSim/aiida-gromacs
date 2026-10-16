@@ -24,6 +24,10 @@ conda environment, along with modifying your command lines very slightly.
 This means that you should gain access to powerful FAIR data practices without
 wholesale cultural or usage pattern shifts in your daily work.
 
+<p align="center">
+    <img src="docs/source/images/aiida-gromacs-logo.svg" alt="aiida-gromacs logo" width="300"/>
+</p>
+
 ## Documentation
 
 See [here](https://aiida-gromacs.readthedocs.io/en/latest/) for documentation for users and developers.
