@@ -1,0 +1,13 @@
+name: "aiida-gromacs"
+shortdesc: "The GROMACS plugin for AiiDA aims to enable the capture and sharing of the full provenance of data when parameterising and running molecular dynamics simulations."
+longdesc: "aiida-gromacs is a plugin that integrates the GROMACS molecular dynamics software with AiiDA, an open-source framework for automated computational science workflows. Its primary goal is to enable the capture and sharing of the full provenance of data when parameterising and running molecular dynamics simulations. The plugin is developed as part of the Physical Sciences Data Infrastructure (PSDI) programme, which aims to improve data practices within the Physical Sciences in the UK. A key design principle is minimal disruption to existing workflows — researchers can gain access to powerful FAIR (Findable, Accessible, Interoperable, Reusable) data practices simply by activating an AiiDA conda environment and making only slight modifications to their existing command lines, without requiring wholesale changes to how they work."
+authors:
+  Jas Kalayan: "https://orcid.org/0000-0002-6833-1864"
+  James Gebbie-Rayet: "https://orcid.org/0000-0001-8271-3431"
+  Harry Swift: "https://orcid.org/0009-0007-3323-753X"
+category: "data-tools"
+image: "aiida-gromacs-logo.svg"
+github: "https://github.com/CCPBioSim/aiida-gromacs"
+docs: "https://aiida-gromacs.readthedocs.io"
+pypi: true
+conda: true
