@@ -4,3 +4,4 @@ category: "data-tools"
 image: "aiida-gromacs-logo.svg"
 pypi: true
 conda: true
+ghcr: false
