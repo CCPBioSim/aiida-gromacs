@@ -13,16 +13,21 @@ authors:
     email: jas.kalayan@stfc.ac.uk
     affiliation: 'STFC, Scientific Computing'
     orcid: 'https://orcid.org/0000-0002-6833-1864'
-  - given-names: James
-    family-names: Gebbie-Rayet
-    email: james.gebbie@stfc.ac.uk
-    affiliation: 'STFC, Scientific Computing'
-    orcid: 'https://orcid.org/0000-0001-8271-3431'
   - given-names: Harry
     family-names: Swift
     email: harry.swift@stfc.ac.uk
     affiliation: 'STFC, Scientific Computing'
     orcid: 'https://orcid.org/0009-0007-3323-753X'
+  - given-names: James
+    family-names: Gebbie-Rayet
+    email: james.gebbie@stfc.ac.uk
+    affiliation: 'STFC, Scientific Computing'
+    orcid: 'https://orcid.org/0000-0001-8271-3431'
+  - given-names: Sarah
+    family-names: Harris
+    email: sarah.harris@sheffield.ac.uk
+    affiliation: University of Sheffield
+    orcid: 'https://orcid.org/0000-0002-2812-1651'
 repository-code: 'https://github.com/CCPBioSim/aiida-gromacs'
 url: 'https://aiida-gromacs.readthedocs.io/en/latest/'
 abstract: >-
