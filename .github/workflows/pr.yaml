@@ -13,7 +13,7 @@ concurrency:
 jobs:
   unit:
     name: Unit
-    uses: CCPBioSim/.github/.github/workflows/ci-test-conda.yaml@43d3ed06eb774dfa813173770888a15f554c70cc # 0.6.0
+    uses: CCPBioSim/.github/.github/workflows/ci-test-conda.yaml@032ccd9e849d9a57dee16beb835b90e53de9c981 # 0.7.0
     permissions:
       contents: read
       checks: write
@@ -34,11 +34,12 @@ jobs:
         which gmx
       pytest-args: -s
       test-path: .
+      coverage-leg: '{"python": "3.14", "aiida": "2.9.1"}'
       timeout-minutes: 30
 
   lowest-dependencies:
     name: Lowest dependencies
-    uses: CCPBioSim/.github/.github/workflows/ci-test-conda.yaml@43d3ed06eb774dfa813173770888a15f554c70cc # 0.6.0
+    uses: CCPBioSim/.github/.github/workflows/ci-test-conda.yaml@032ccd9e849d9a57dee16beb835b90e53de9c981 # 0.7.0
     permissions:
       contents: read
       checks: write
@@ -66,7 +67,7 @@ jobs:
   docs:
     name: Docs
     needs: unit
-    uses: CCPBioSim/.github/.github/workflows/ci-docs.yaml@43d3ed06eb774dfa813173770888a15f554c70cc # 0.6.0
+    uses: CCPBioSim/.github/.github/workflows/ci-docs.yaml@032ccd9e849d9a57dee16beb835b90e53de9c981 # 0.7.0
     permissions:
       contents: read
     with:
@@ -77,7 +78,7 @@ jobs:
   pre-commit:
     name: Pre-commit
     needs: unit
-    uses: CCPBioSim/.github/.github/workflows/ci-pre-commit.yaml@43d3ed06eb774dfa813173770888a15f554c70cc # 0.6.0
+    uses: CCPBioSim/.github/.github/workflows/ci-pre-commit.yaml@032ccd9e849d9a57dee16beb835b90e53de9c981 # 0.7.0
     permissions:
       contents: read
     with:
@@ -87,7 +88,7 @@ jobs:
   conda-build:
     name: Conda build
     needs: unit
-    uses: CCPBioSim/.github/.github/workflows/ci-conda-build.yaml@43d3ed06eb774dfa813173770888a15f554c70cc # 0.6.0
+    uses: CCPBioSim/.github/.github/workflows/ci-conda-build.yaml@032ccd9e849d9a57dee16beb835b90e53de9c981 # 0.7.0
     permissions:
       contents: read
     with:
