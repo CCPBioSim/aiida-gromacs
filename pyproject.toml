@@ -14,9 +14,9 @@ readme = "README.md"
 license = {file = "LICENSE"}
 classifiers = [
     "Programming Language :: Python",
-    "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
     "Intended Audience :: Science/Research",
     "License :: OSI Approved :: MIT License",
     "Natural Language :: English",
@@ -36,12 +36,12 @@ Source = "https://github.com/CCPBioSim/aiida-gromacs"
 
 [project.optional-dependencies]
 testing = [
-    "pgtest==1.3.2",
-    "wheel==0.48.0",
-    "coverage[toml]",
-    "pytest==9.1.1",
-    "pytest-cov==7.1.0",
-    "pytest-sugar==1.1.1"
+    "pgtest>=1.3,<2.0",
+    "wheel>=0.40,<1.0",
+    "coverage[toml]>=7.10.6,<8.0",
+    "pytest>=9.0,<10.0",
+    "pytest-cov>=7.0,<8.0",
+    "pytest-sugar>=1.1,<2.0"
 ]
 pre-commit = [
     "pre-commit>=4.6,<5.0",
@@ -110,7 +110,7 @@ name = "aiida_gromacs"
 
 [tool.ruff]
 line-length = 120
-target-version = "py311"
+target-version = "py312"
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "B", "UP"]
@@ -134,24 +134,3 @@ filterwarnings = [
 # Configuration of [coverage.py](https://coverage.readthedocs.io)
 # reporting which lines of your plugin are covered by tests
 source=["aiida_gromacs"]
-
-[tool.tox]
-legacy_tox_ini = """
-[tox]
-envlist = py38
-[testenv]
-usedevelop=True
-[testenv:py{38,39,310,311}]
-description = Run the test suite against a python version
-extras = testing
-commands = pytest {posargs}
-[testenv:pre-commit]
-description = Run the pre-commit checks
-extras = pre-commit
-commands = pre-commit run {posargs}
-[testenv:docs]
-description = Build the documentation
-extras = docs
-commands = sphinx-build -nW --keep-going -b html {posargs} docs/source docs/build/html
-commands_post = echo "open file://{toxinidir}/docs/build/html/index.html"
-"""
