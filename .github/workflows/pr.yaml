@@ -13,7 +13,7 @@ concurrency:
 jobs:
   unit:
     name: Unit
-    uses: CCPBioSim/.github/.github/workflows/ci-test-conda.yaml@032ccd9e849d9a57dee16beb835b90e53de9c981 # 0.7.0
+    uses: CCPBioSim/.github/.github/workflows/ci-test-conda.yaml@3b584f764153b7cabab291c0d1f40b75ce56e5de # 0.8.0
     permissions:
       contents: read
       checks: write
@@ -39,7 +39,7 @@ jobs:
 
   lowest-dependencies:
     name: Lowest dependencies
-    uses: CCPBioSim/.github/.github/workflows/ci-test-conda.yaml@032ccd9e849d9a57dee16beb835b90e53de9c981 # 0.7.0
+    uses: CCPBioSim/.github/.github/workflows/ci-test-conda.yaml@3b584f764153b7cabab291c0d1f40b75ce56e5de # 0.8.0
     permissions:
       contents: read
       checks: write
@@ -59,7 +59,6 @@ jobs:
         ls -l "${PLUMED_KERNEL}"
         which gmx
       lowest-dependencies: true
-      coverage: false
       pytest-args: -s
       test-path: .
       timeout-minutes: 30
@@ -67,7 +66,7 @@ jobs:
   docs:
     name: Docs
     needs: unit
-    uses: CCPBioSim/.github/.github/workflows/ci-docs.yaml@032ccd9e849d9a57dee16beb835b90e53de9c981 # 0.7.0
+    uses: CCPBioSim/.github/.github/workflows/ci-docs.yaml@3b584f764153b7cabab291c0d1f40b75ce56e5de # 0.8.0
     permissions:
       contents: read
     with:
@@ -78,7 +77,7 @@ jobs:
   pre-commit:
     name: Pre-commit
     needs: unit
-    uses: CCPBioSim/.github/.github/workflows/ci-pre-commit.yaml@032ccd9e849d9a57dee16beb835b90e53de9c981 # 0.7.0
+    uses: CCPBioSim/.github/.github/workflows/ci-pre-commit.yaml@3b584f764153b7cabab291c0d1f40b75ce56e5de # 0.8.0
     permissions:
       contents: read
     with:
@@ -88,7 +87,7 @@ jobs:
   conda-build:
     name: Conda build
     needs: unit
-    uses: CCPBioSim/.github/.github/workflows/ci-conda-build.yaml@032ccd9e849d9a57dee16beb835b90e53de9c981 # 0.7.0
+    uses: CCPBioSim/.github/.github/workflows/ci-conda-build.yaml@3b584f764153b7cabab291c0d1f40b75ce56e5de # 0.8.0
     permissions:
       contents: read
     with:

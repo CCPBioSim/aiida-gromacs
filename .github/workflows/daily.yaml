@@ -15,7 +15,7 @@ concurrency:
 jobs:
   unit:
     name: Unit
-    uses: CCPBioSim/.github/.github/workflows/ci-test-conda.yaml@032ccd9e849d9a57dee16beb835b90e53de9c981 # 0.7.0
+    uses: CCPBioSim/.github/.github/workflows/ci-test-conda.yaml@3b584f764153b7cabab291c0d1f40b75ce56e5de # 0.8.0
     permissions:
       contents: read
       checks: write
@@ -36,5 +36,4 @@ jobs:
         which gmx
       pytest-args: -s
       test-path: .
-      coverage: false
       timeout-minutes: 30
