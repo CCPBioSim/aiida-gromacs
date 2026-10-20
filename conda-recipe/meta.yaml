@@ -1,5 +1,6 @@
 {% set name = "aiida-gromacs" %}
-{% set version = "2.1.2" %}
+{% set version = "0.0.0" %}
+{% set pyproject = load_file_data("../pyproject.toml", from_recipe_dir=True) %}
 
 package:
   name: {{ name }}
@@ -8,36 +9,24 @@ package:
 source:
   path: ..
 
-outputs:
-  - name: {{ name }}
-    build:
-      noarch: python
-      script: python -m pip install . -vv
-      entry_points:
-        - gmx_pdb2gmx=aiida_gromacs.cli.pdb2gmx:cli
-        - gmx_editconf=aiida_gromacs.cli.editconf:cli
-        - gmx_genion=aiida_gromacs.cli.genion:cli
-        - gmx_grompp=aiida_gromacs.cli.grompp:cli
-        - gmx_mdrun=aiida_gromacs.cli.mdrun:cli
-        - gmx_solvate=aiida_gromacs.cli.solvate:cli
-        - gmx_make_ndx=aiida_gromacs.cli.make_ndx:cli
-        - genericMD=aiida_gromacs.cli.genericMD:cli
-        - createarchive=aiida_gromacs.cli.createarchive:cli
-    requirements:
-      host:
-        - python >=3.12
-        - pip
-        - flit-core >=4,<5
-      run:
-        - python >=3.12
-        - aiida-core >=2.9.0,<2.10
-        - voluptuous >=0.16.0,<1.0
-        - biosim-extractor >=1.0.0,<2.0
-    about:
-      home: https://github.com/CCPBioSim/aiida-gromacs
-      license: MIT
-      license_file: LICENSE
-      summary: A plugin for using GROMACS with AiiDA for molecular dymanics simulations.
+build:
+  noarch: python
+  script: python -m pip install . -vv --no-deps
+  entry_points:
+    {% for script, target in pyproject["project"]["scripts"].items() %}
+    - {{ script }}={{ target }}
+    {% endfor %}
+
+requirements:
+  host:
+    - python >=3.12
+    - pip
+    - flit-core >=4,<5
+  run:
+    - python {{ pyproject["project"]["requires-python"] }}
+    {% for dependency in pyproject["project"]["dependencies"] %}
+    - {{ dependency | lower }}
+    {% endfor %}
 
 test:
   imports:
@@ -46,3 +35,9 @@ test:
     - gmx_grompp --help
     - gmx_mdrun --help
     - python -c "import aiida_gromacs; print(aiida_gromacs.__version__)"
+
+about:
+  home: https://github.com/CCPBioSim/aiida-gromacs
+  license: MIT
+  license_file: LICENSE
+  summary: A plugin for using GROMACS with AiiDA for molecular dymanics simulations.
