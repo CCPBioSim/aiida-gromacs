@@ -1,0 +1,40 @@
+name: Daily Unit Tests
+
+on:
+  schedule:
+    - cron: '0 8 * * 1-5'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: daily-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  unit:
+    name: Unit
+    uses: CCPBioSim/.github/.github/workflows/ci-test-conda.yaml@43d3ed06eb774dfa813173770888a15f554c70cc # 0.6.0
+    permissions:
+      contents: read
+      checks: write
+      statuses: write
+    with:
+      package: aiida_gromacs
+      matrix: >-
+        {
+          "python": ["3.12", "3.13", "3.14"],
+          "aiida": ["2.9.0", "2.9.1"],
+          "gromacs": ["2026.3"],
+          "plumed": ["2.10.1"]
+        }
+      conda-packages: python={python} aiida-core={aiida} gromacs={gromacs}=nompi_* plumed={plumed}=mpi_nompi_*
+      pre-test-command: |
+        export PLUMED_KERNEL="${CONDA_PREFIX}/lib/libplumedKernel.so"
+        ls -l "${PLUMED_KERNEL}"
+        which gmx
+      pytest-args: -s
+      test-path: .
+      coverage: false
+      timeout-minutes: 30
