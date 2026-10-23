@@ -13,81 +13,47 @@ concurrency:
 jobs:
   unit:
     name: Unit
-    uses: CCPBioSim/.github/.github/workflows/ci-test-conda.yaml@3b584f764153b7cabab291c0d1f40b75ce56e5de # 0.8.0
+    uses: CCPBioSim/.github/.github/workflows/ci-test-conda.yaml@f4cec1ba490b4461bfbcfd6362a8587678908a7d # 0.12.0
     permissions:
       contents: read
       checks: write
       statuses: write
     with:
       package: aiida_gromacs
-      matrix: >-
-        {
-          "python": ["3.12", "3.13", "3.14"],
-          "aiida": ["2.9.0", "2.9.1"],
-          "gromacs": ["2026.3"],
-          "plumed": ["2.10.1"]
-        }
-      conda-packages: python={python} aiida-core={aiida} gromacs={gromacs}=nompi_* plumed={plumed}=mpi_nompi_*
+      conda-packages: gromacs=2026.3=nompi_* plumed=2.10.1=mpi_nompi_*
       pre-test-command: |
         export PLUMED_KERNEL="${CONDA_PREFIX}/lib/libplumedKernel.so"
         ls -l "${PLUMED_KERNEL}"
         which gmx
       pytest-args: -s
       test-path: .
-      coverage-leg: '{"python": "3.14", "aiida": "2.9.1"}'
-      timeout-minutes: 30
-
-  lowest-dependencies:
-    name: Lowest dependencies
-    uses: CCPBioSim/.github/.github/workflows/ci-test-conda.yaml@3b584f764153b7cabab291c0d1f40b75ce56e5de # 0.8.0
-    permissions:
-      contents: read
-      checks: write
-      statuses: write
-    with:
-      package: aiida_gromacs
-      matrix: >-
-        {
-          "python": ["3.12", "3.14"],
-          "aiida": ["2.9.0"],
-          "gromacs": ["2026.3"],
-          "plumed": ["2.10.1"]
-        }
-      conda-packages: python={python} aiida-core={aiida} gromacs={gromacs}=nompi_* plumed={plumed}=mpi_nompi_*
-      pre-test-command: |
-        export PLUMED_KERNEL="${CONDA_PREFIX}/lib/libplumedKernel.so"
-        ls -l "${PLUMED_KERNEL}"
-        which gmx
-      lowest-dependencies: true
-      pytest-args: -s
-      test-path: .
+      lowest-dependencies-check: true
+      coverage: true
       timeout-minutes: 30
 
   docs:
     name: Docs
     needs: unit
-    uses: CCPBioSim/.github/.github/workflows/ci-docs.yaml@3b584f764153b7cabab291c0d1f40b75ce56e5de # 0.8.0
+    uses: CCPBioSim/.github/.github/workflows/ci-docs.yaml@f4cec1ba490b4461bfbcfd6362a8587678908a7d # 0.12.0
     permissions:
       contents: read
     with:
-      python-versions: '["3.15"]'
       build-dir: build
       timeout-minutes: 15
 
   pre-commit:
     name: Pre-commit
     needs: unit
-    uses: CCPBioSim/.github/.github/workflows/ci-pre-commit.yaml@3b584f764153b7cabab291c0d1f40b75ce56e5de # 0.8.0
+    uses: CCPBioSim/.github/.github/workflows/ci-pre-commit.yaml@f4cec1ba490b4461bfbcfd6362a8587678908a7d # 0.12.0
     permissions:
       contents: read
     with:
-      python-version: "3.15"
       timeout-minutes: 15
 
   conda-build:
     name: Conda build
     needs: unit
-    uses: CCPBioSim/.github/.github/workflows/ci-conda-build.yaml@3b584f764153b7cabab291c0d1f40b75ce56e5de # 0.8.0
+    uses: CCPBioSim/.github/.github/workflows/ci-conda-build.yaml@f4cec1ba490b4461bfbcfd6362a8587678908a7d # 0.12.0
     permissions:
       contents: read
     with:
