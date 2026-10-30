@@ -36,7 +36,7 @@ extensions = [
 ]
 
 # API reference generated from the source by sphinx-autoapi
-autoapi_dirs = ["../../aiida_amber"]
+autoapi_dirs = ["../../aiida_gromacs"]
 autoapi_root = "reference"
 autoapi_add_toctree_entry = False
 autoapi_member_order = "groupwise"
