@@ -50,11 +50,8 @@ pre-commit = [
 ]
 docs = [
     "sphinx",
-    "sphinx_rtd_theme",
-    "sphinxcontrib-contentui",
-    "sphinxcontrib-details-directive",
-    "sphinx_copybutton",
-    "furo",
+    "sphinx-autoapi>=3.8,<4.0",
+    "ccpbiosim-sphinx-theme>=1.3.0,<2.0",
     "markupsafe<3.1"
 ]
 
