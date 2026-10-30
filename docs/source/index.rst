@@ -1,25 +1,78 @@
-.. image:: images/AiiDA_transparent_logo.png
-    :width: 250px
-    :align: center
-    :target: http://www.aiida.net/
+:html_theme.sidebar_secondary.remove:
 
-The aiida-gromacs plugin for `AiiDA`_
-=====================================================
+aiida-gromacs
+===========
 
-``aiida-gromacs`` is available at http://github.com/CCPBioSim/aiida-gromacs
+.. ccpbiosim-hero::
+   :logo-light: images/aiida-gromacs-logo.svg
+   :logo-dark: images/aiida-gromacs-logo.svg
+   :logo-alt: aiida-gromacs logo
+   :tagline: aiida-gromacs
+   :button: user_guide/index | Get started
+   :github: CCPBioSim/aiida-gromacs
 
-.. image:: images/gromacs-BioSimDB-logo.png
-    :width: 250px
-    :align: center
-    :target: https://github.com/CCPBioSim/aiida-gromacs
+   AiiDA plugin that wraps Gromacs molecular dynamics executables
+
+The Gromacs plugin for `AiiDA`_ captures and shares the full provenance of data
+when parameterising and running molecular dynamics simulations.
+
+Quick start
+-----------
+
+.. tab-set::
+
+   .. tab-item:: pip
+
+      .. code-block:: bash
+
+         pip install aiida-gromacs
+
+   .. tab-item:: Conda
+
+      .. code-block:: bash
+
+         conda install -c ccpbiosim aiida-gromacs
+
+Explore the documentation
+-------------------------
+
+.. grid:: 1 2 2 2
+   :gutter: 3
+
+   .. grid-item-card:: 🚀 User Guide
+      :link: user_guide/index
+      :link-type: doc
+
+      Install aiida-gromacs and run Gromacs with AiiDA.
+
+   .. grid-item-card:: 👩‍💻 Developer Guide
+      :link: developer_guide/index
+      :link-type: doc
+
+      Setting up a development environment and contributing.
+
+   .. grid-item-card:: 📖 API
+      :link: apidoc/aiida_amber
+      :link-type: doc
+
+      Reference for the aiida-gromacs package.
+
+   .. grid-item-card:: 🌐 AiiDA Documentation
+      :link: https://aiida.readthedocs.io
+
+      The documentation for AiiDA itself.
 
 .. toctree::
    :maxdepth: 2
+   :hidden:
 
-   user_guide/index
-   tutorials/index
-   developer_guide/index
-   API documentation <apidoc/aiida_gromacs>
+   User Guide <user_guide/index>
+   Developer Guide <developer_guide/index>
+   API <apidoc/aiida_amber>
+   AiiDA Documentation <https://aiida.readthedocs.io>
+
+Citing
+------
 
 If you use this plugin for your research, please cite the following work:
 
@@ -34,10 +87,13 @@ If you use AiiDA for your research, please cite the following work:
 
 ``aiida-gromacs`` is released under the MIT license.
 
-Please contact James Gebbie-Rayet james.gebbie@stfc.ac.uk or Jas Kalayan jas.kalayan@stfc.ac.uk for information concerning aiida-gromacs and the `AiiDA mailing list <http://www.aiida.net/mailing-list/>`_ for questions concerning aiida.
+Contact
+-------
+
+Please contact Jas Kalayan jas.kalayan@stfc.ac.uk  or James Gebbie-Rayet james.gebbie@stfc.ac.uk for information concerning ``aiida-gromacs`` and the `AiiDA mailing list <http://www.aiida.net/mailing-list/>`_ for questions concerning ``aiida``.
 
 Funding
-=======
+-------
 
 Contributors to aiida-gromacs were supported by
 
@@ -52,11 +108,5 @@ Contributors to aiida-gromacs were supported by
 .. image:: images/cosec-logo.png
    :height: 100px
    :target: https://www.scd.stfc.ac.uk/Pages/CoSeC.aspx
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
 
 .. _AiiDA: http://www.aiida.net
