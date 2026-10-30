@@ -16,15 +16,6 @@ import time
 
 import aiida_gromacs
 
-# -- AiiDA-related setup --------------------------------------------------
-
-# If we are not on READTHEDOCS load the Sphinx theme manually
-if not os.environ.get("READTHEDOCS", None):
-    # import sphinx_rtd_theme
-
-    html_theme = "furo"  # "sphinx_rtd_theme"
-    # html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
-
 # -- General configuration ------------------------------------------------
 
 # If extensions (or modules to document with autodoc) are in another directory,
@@ -42,9 +33,7 @@ extensions = [
     "sphinx.ext.mathjax",
     "sphinx.ext.intersphinx",
     "sphinx.ext.viewcode",
-    "sphinxcontrib.contentui",
     "sphinx_copybutton",
-    "aiida.sphinxext",
 ]
 
 intersphinx_mapping = {
@@ -141,7 +130,8 @@ pygments_style = "sphinx"
 #     "display_version": True,
 # }
 
-html_theme = "furo"
+html_theme = "ccpbiosim_sphinx_theme"
+html_context = {"github_repo": "aiida-gromacs"}
 # Add any paths that contain custom themes here, relative to this directory.
 # ~ html_theme_path = ["."]
 
