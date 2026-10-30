@@ -16,7 +16,7 @@ concurrency:
 jobs:
   coveralls:
     name: Build main coverage baseline
-    uses: CCPBioSim/.github/.github/workflows/ci-test-conda.yaml@edc3732fa8d31a58312ca784e65cad9bdfba9347 # 0.13.0
+    uses: CCPBioSim/.github/.github/workflows/ci-test-conda.yaml@2bf63339f2515ec54777e952e8db3d8674d4e5ca # 0.14.0
     permissions:
       contents: read
       checks: write
