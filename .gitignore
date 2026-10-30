@@ -13,7 +13,7 @@ build/
 dist/
 pip-wheel-metadata/
 .tox/
-docs/source/apidoc/
+docs/source/reference/
 # ignore files and sub dirs in the notebooks directory
 notebooks/*
 # but do not ignore the *.ipynb files

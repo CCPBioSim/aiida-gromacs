@@ -52,7 +52,7 @@ Explore the documentation
       Setting up a development environment and contributing.
 
    .. grid-item-card:: 📖 API
-      :link: apidoc/aiida_amber
+      :link: reference/aiida_gromacs/index
       :link-type: doc
 
       Reference for the aiida-gromacs package.
@@ -68,7 +68,7 @@ Explore the documentation
 
    User Guide <user_guide/index>
    Developer Guide <developer_guide/index>
-   API <apidoc/aiida_amber>
+   API <reference/aiida_gromacs/index>
    AiiDA Documentation <https://aiida.readthedocs.io>
 
 Citing
