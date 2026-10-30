@@ -1,7 +1,7 @@
 :html_theme.sidebar_secondary.remove:
 
 aiida-gromacs
-===========
+=============
 
 .. ccpbiosim-hero::
    :logo-light: images/aiida-gromacs-logo.svg
@@ -36,7 +36,7 @@ Quick start
 Explore the documentation
 -------------------------
 
-.. grid:: 1 2 2 2
+.. grid:: 1 2 2 3
    :gutter: 3
 
    .. grid-item-card:: 🚀 User Guide
@@ -44,6 +44,12 @@ Explore the documentation
       :link-type: doc
 
       Install aiida-gromacs and run Gromacs with AiiDA.
+
+   .. grid-item-card:: 🎓 Tutorials
+      :link: tutorials/index
+      :link-type: doc
+
+      Worked examples using aiida-gromacs.
 
    .. grid-item-card:: 👩‍💻 Developer Guide
       :link: developer_guide/index
@@ -67,6 +73,7 @@ Explore the documentation
    :hidden:
 
    User Guide <user_guide/index>
+   Tutorials <tutorials/index>
    Developer Guide <developer_guide/index>
    API <reference/aiida_gromacs/index>
    AiiDA Documentation <https://aiida.readthedocs.io>
